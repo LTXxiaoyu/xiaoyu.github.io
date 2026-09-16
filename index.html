@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XY Launcher - 官方下载站</title>
     <style>
-        /* 基础重置与全局样式 */
+        /* ================= 基础重置与全局样式 ================= */
         * {
             margin: 0;
             padding: 0;
@@ -19,9 +19,11 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            /* 防止动画从下方滑入时出现水平滚动条 */
+            overflow-x: hidden; 
         }
 
-        /* 顶部导航栏 */
+        /* ================= 顶部导航栏 ================= */
         header {
             background-color: #ffffff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -59,7 +61,7 @@
             border-bottom: 3px solid #2b9bff;
         }
 
-        /* 主内容区域 */
+        /* ================= 主内容区域 ================= */
         main {
             flex: 1;
             display: flex;
@@ -72,24 +74,21 @@
         .tab-content {
             display: none;
             width: 100%;
-            animation: fadeIn 0.4s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 介绍页面布局 */
+        /* ================= 介绍页面布局 ================= */
         .intro-container {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
+            justify-content: flex-start;
             gap: 50px;
-            max-width: 1000px;
+            max-width: 1200px;
+            width: 100%;
             margin-left: 5%; /* 屏幕中间偏左 */
         }
 
@@ -97,28 +96,31 @@
         .intro-icon {
             width: 280px;
             height: 280px;
-            /* 移除原来的圆角，改为八边形裁剪 */
+            /* 八边形裁剪路径 */
             clip-path: polygon(
-                29.3% 0%, 
-                70.7% 0%, 
-                100% 29.3%, 
-                100% 70.7%, 
-                70.7% 100%, 
-                29.3% 100%, 
-                0% 70.7%, 
-                0% 29.3%
+                29.3% 0%, 70.7% 0%, 
+                100% 29.3%, 100% 70.7%, 
+                70.7% 100%, 29.3% 100%, 
+                0% 70.7%, 0% 29.3%
             );
-            /* 使用 drop-shadow 代替 box-shadow，因为 clip-path 会裁剪掉普通的阴影 */
+            /* 使用 drop-shadow 兼容八边形阴影 */
             filter: drop-shadow(0 10px 20px rgba(43, 155, 255, 0.3));
             object-fit: cover;
             flex-shrink: 0;
-            /* 可以添加一点白色的背景，防止透明背景在白色网页上看不清边缘 */
-            background-color: #ffffff; 
+            background-color: #ffffff;
+            
+            /* 图标动画：0.8秒，缓出，停留在最终状态 */
+            animation: slideUpFadeIn 0.8s ease-out forwards;
         }
 
         /* 介绍文字 */
         .intro-text {
             flex: 1;
+            min-width: 300px; /* 确保文字不会太窄 */
+            
+            /* 文字动画：延迟0.2秒执行，实现错开入场 */
+            animation: slideUpFadeIn 0.8s ease-out 0.2s forwards;
+            opacity: 0; /* 初始透明，防止动画开始前闪烁 */
         }
 
         .intro-text h1 {
@@ -135,7 +137,19 @@
             margin-bottom: 15px;
         }
 
-        /* 其他页面占位 */
+        /* ================= 动画关键帧 ================= */
+        @keyframes slideUpFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(120px); /* 从下方 120 像素处升上来 */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* 回到原位 */
+            }
+        }
+
+        /* ================= 其他页面占位 ================= */
         .placeholder-page {
             text-align: center;
             width: 100%;
@@ -144,7 +158,7 @@
             margin-top: 100px;
         }
 
-        /* 响应式设计 */
+        /* ================= 响应式设计 (手机端) ================= */
         @media (max-width: 768px) {
             .intro-container {
                 flex-direction: column;
@@ -184,9 +198,10 @@
         <!-- 1. 介绍页面 (默认显示) -->
         <div id="intro" class="tab-content active">
             <div class="intro-container">
-                <!-- 这里的 src="icon.png" 需要你把自己的图片保存为 icon.png 并放在同级目录 -->
+                <!-- 图标 -->
                 <img src="icon.png" alt="XY Launcher 图标" class="intro-icon">
                 
+                <!-- 文字介绍 -->
                 <div class="intro-text">
                     <h1>XY Launcher启动器</h1>
                     <p>XY Launcher 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
@@ -221,8 +236,8 @@
         </div>
     </main>
 
+    <!-- 切换选项卡的 JS 逻辑 -->
     <script>
-        // 切换选项卡的 JavaScript 逻辑
         function switchTab(event, tabId) {
             // 1. 移除所有导航项的 active 类
             const navLinks = document.querySelectorAll('nav a');
