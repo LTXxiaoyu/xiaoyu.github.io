@@ -97,10 +97,23 @@
         .intro-icon {
             width: 280px;
             height: 280px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(43, 155, 255, 0.2);
+            /* 移除原来的圆角，改为八边形裁剪 */
+            clip-path: polygon(
+                29.3% 0%, 
+                70.7% 0%, 
+                100% 29.3%, 
+                100% 70.7%, 
+                70.7% 100%, 
+                29.3% 100%, 
+                0% 70.7%, 
+                0% 29.3%
+            );
+            /* 使用 drop-shadow 代替 box-shadow，因为 clip-path 会裁剪掉普通的阴影 */
+            filter: drop-shadow(0 10px 20px rgba(43, 155, 255, 0.3));
             object-fit: cover;
             flex-shrink: 0;
+            /* 可以添加一点白色的背景，防止透明背景在白色网页上看不清边缘 */
+            background-color: #ffffff; 
         }
 
         /* 介绍文字 */
