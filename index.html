@@ -19,8 +19,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            /* 防止动画从下方滑入时出现水平滚动条 */
-            overflow-x: hidden; 
+            overflow-x: hidden; /* 防止从下方滑入时出现水平滚动条 */
         }
 
         /* ================= 顶部导航栏 ================= */
@@ -65,12 +64,11 @@
         main {
             flex: 1;
             display: flex;
-            justify-content: flex-start; /* 偏左 */
+            justify-content: flex-start;
             align-items: center;
             padding: 60px 10%;
         }
 
-        /* 页面内容切换控制 */
         .tab-content {
             display: none;
             width: 100%;
@@ -89,7 +87,7 @@
             gap: 50px;
             max-width: 1200px;
             width: 100%;
-            margin-left: 5%; /* 屏幕中间偏左 */
+            margin-left: 5%;
         }
 
         /* 启动器图标 */
@@ -103,24 +101,25 @@
                 70.7% 100%, 29.3% 100%, 
                 0% 70.7%, 0% 29.3%
             );
-            /* 使用 drop-shadow 兼容八边形阴影 */
             filter: drop-shadow(0 10px 20px rgba(43, 155, 255, 0.3));
             object-fit: cover;
             flex-shrink: 0;
-            background-color: #ffffff;
             
-            /* 图标动画：0.8秒，缓出，停留在最终状态 */
-            animation: slideUpFadeIn 1s ease-out forwards;
+            /* 【调试用】加一个浅色背景，万一图片没加载出来，你能看到八边形框在哪 */
+            background-color: #f0f8ff; 
+            
+            /* 图标动画：1.5秒，缓出 */
+            animation: slideUpFadeIn 1.5s ease-out forwards;
         }
 
         /* 介绍文字 */
         .intro-text {
             flex: 1;
-            min-width: 300px; /* 确保文字不会太窄 */
+            min-width: 300px;
             
-            /* 文字动画：延迟0.2秒执行，实现错开入场 */
-            animation: slideUpFadeIn 1s ease-out 0.2s forwards;
-            opacity: 0; /* 初始透明，防止动画开始前闪烁 */
+            /* 文字动画：1.5秒，延迟0.2秒错开出场 */
+            animation: slideUpFadeIn 1.5s ease-out 0.2s forwards;
+            opacity: 0;
         }
 
         .intro-text h1 {
@@ -141,11 +140,11 @@
         @keyframes slideUpFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(120px); /* 从下方 120 像素处升上来 */
+                transform: translateY(120px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0); /* 回到原位 */
+                transform: translateY(0);
             }
         }
 
@@ -183,7 +182,6 @@
 </head>
 <body>
 
-    <!-- 顶部导航 -->
     <header>
         <nav>
             <a class="active" onclick="switchTab(event, 'intro')">介绍</a>
@@ -193,15 +191,12 @@
         </nav>
     </header>
 
-    <!-- 主内容 -->
     <main>
-        <!-- 1. 介绍页面 (默认显示) -->
         <div id="intro" class="tab-content active">
             <div class="intro-container">
-                <!-- 图标 -->
+                <!-- 图标：确保你的图片叫 icon.png 并且和这个文件在同一个目录 -->
                 <img src="icon.png" alt="XY Launcher 图标" class="intro-icon">
                 
-                <!-- 文字介绍 -->
                 <div class="intro-text">
                     <h1>XY Launcher启动器</h1>
                     <p>XY Launcher 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
@@ -211,7 +206,6 @@
             </div>
         </div>
 
-        <!-- 2. 下载页面 -->
         <div id="download" class="tab-content">
             <div class="placeholder-page">
                 <h2>下载页面</h2>
@@ -219,7 +213,6 @@
             </div>
         </div>
 
-        <!-- 3. 问题及反馈 -->
         <div id="feedback" class="tab-content">
             <div class="placeholder-page">
                 <h2>问题及反馈</h2>
@@ -227,7 +220,6 @@
             </div>
         </div>
 
-        <!-- 4. 支持我们 -->
         <div id="support" class="tab-content">
             <div class="placeholder-page">
                 <h2>支持我们</h2>
@@ -236,21 +228,15 @@
         </div>
     </main>
 
-    <!-- 切换选项卡的 JS 逻辑 -->
     <script>
         function switchTab(event, tabId) {
-            // 1. 移除所有导航项的 active 类
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => link.classList.remove('active'));
-
-            // 2. 给当前点击的导航项添加 active 类
             event.currentTarget.classList.add('active');
 
-            // 3. 隐藏所有内容区域
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => content.classList.remove('active'));
-
-            // 4. 显示对应的内容区域
+            
             const targetContent = document.getElementById(tabId);
             if (targetContent) {
                 targetContent.classList.add('active');
