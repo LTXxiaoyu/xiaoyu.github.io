@@ -12,7 +12,6 @@
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
 
-        /* 核心全局样式：增加 5秒 缓慢过渡动画 */
         body {
             background-color: #ffffff;
             color: #333333;
@@ -20,10 +19,9 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: background-color 5s ease, color 5s ease; /* 5秒过渡 */
+            transition: background-color 5s ease, color 5s ease;
         }
 
-        /* 夜览模式下的全局颜色 */
         body.dark-mode {
             background-color: #121212;
             color: #eeeeee;
@@ -50,28 +48,32 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 60px;
+            gap: 50px;
             padding: 15px 20px;
             position: relative;
         }
 
-        nav a {
+        /* 导航栏链接和按钮的通用样式（去除颜色，融入导航栏） */
+        nav a, .nav-ctrl {
             text-decoration: none;
             color: #666666;
             font-size: 16px;
             font-weight: 500;
             padding-bottom: 5px;
             border-bottom: 3px solid transparent;
-            transition: color 5s ease, border-color 5s ease; /* 5秒过渡 */
+            transition: color 0.3s ease, border-color 0.3s ease;
             cursor: pointer;
             white-space: nowrap;
+            background: transparent;
+            border: none;
+            outline: none;
         }
 
-        body.dark-mode nav a {
+        body.dark-mode nav a, body.dark-mode .nav-ctrl {
             color: #aaaaaa;
         }
 
-        nav a:hover {
+        nav a:hover, .nav-ctrl:hover {
             color: #2b9bff;
         }
 
@@ -80,46 +82,37 @@
             border-bottom: 3px solid #2b9bff;
         }
 
-        /* 右上角控制按钮组 */
+        /* 右侧控制按钮组 */
         .nav-controls {
             position: absolute;
             right: 20px;
             display: flex;
-            gap: 15px;
+            gap: 25px;
             align-items: center;
         }
 
-        .control-btn {
+        /* 语言选择下拉框（透明方框风格） */
+        select.nav-ctrl {
+            appearance: none;        /* 移除系统默认的丑陋下拉箭头样式 */
+            -webkit-appearance: none;
+            padding: 4px 25px 4px 8px; /* 留出一点右侧空间给自定义箭头 */
+            border: 1px solid #cccccc; /* 方框边框 */
+            border-radius: 4px;
             cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            user-select: none;
-            transition: opacity 0.3s;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            background-size: 14px;
         }
 
-        .control-btn:hover {
-            opacity: 0.7;
+        body.dark-mode select.nav-ctrl {
+            border-color: #555555;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         }
 
-        /* 黑色方框：夜览模式 */
-        .theme-btn {
-            background-color: #000000;
-            color: #ffffff;
-            border: 1px solid #333;
-        }
-
-        body.dark-mode .theme-btn {
-            background-color: #ffffff;
-            color: #000000;
-            border: 1px solid #ccc;
-        }
-
-        /* 黄色方框：语言切换 */
-        .lang-btn {
-            background-color: #ffc107;
-            color: #333333;
-            border: 1px solid #e0a800;
+        select.nav-ctrl option {
+            color: #333;
+            background-color: #fff;
         }
 
         /* 主内容区域 */
@@ -179,7 +172,7 @@
             color: #222222;
             margin-bottom: 20px;
             letter-spacing: 1px;
-            transition: color 5s ease; /* 5秒过渡 */
+            transition: color 5s ease;
         }
 
         body.dark-mode .intro-text h1 {
@@ -191,7 +184,7 @@
             line-height: 1.8;
             color: #555555;
             margin-bottom: 15px;
-            transition: color 5s ease; /* 5秒过渡 */
+            transition: color 5s ease;
         }
 
         body.dark-mode .intro-text p {
@@ -237,13 +230,15 @@
             nav {
                 gap: 15px; 
                 flex-wrap: wrap;
-                padding-top: 50px; /* 给右上角按钮留位置 */
+                padding-top: 50px; 
             }
-            nav a {
+            nav a, .nav-ctrl {
                 font-size: 14px;
             }
             .nav-controls {
                 top: 10px;
+                right: 15px;
+                gap: 15px;
             }
             main {
                 padding: 20px 20px 130px 20px;
@@ -262,17 +257,22 @@
             <a onclick="switchTab(event, 'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
             <a onclick="switchTab(event, 'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
             
-            <!-- 右上角控制开关 -->
+            <!-- 右上角控制开关（融入导航栏风格） -->
             <div class="nav-controls">
-                <div class="control-btn theme-btn" id="themeToggle" onclick="toggleTheme()">⬛ 夜览</div>
-                <div class="control-btn lang-btn" id="langToggle" onclick="toggleLanguage()">🇨🇳 简体中文</div>
+                <!-- 夜览图标：默认显示太阳 -->
+                <button class="nav-ctrl" id="themeToggle" onclick="toggleTheme()" title="切换日夜模式">☀️</button>
+                
+                <!-- 语言切换下拉框 -->
+                <select class="nav-ctrl" id="langSelect" onchange="changeLanguage(this.value)" title="选择语言">
+                    <option value="zh">简体中文</option>
+                    <option value="en">English</option>
+                </select>
             </div>
         </nav>
     </header>
 
     <!-- 主内容 -->
     <main>
-        <!-- 介绍页 -->
         <div id="intro" class="tab-content active">
             <div class="intro-container">
                 <img src="icon.png" alt="XY启动器 图标" class="intro-icon">
@@ -288,7 +288,6 @@
             </div>
         </div>
 
-        <!-- 下载页 -->
         <div id="download" class="tab-content">
             <div class="placeholder-page">
                 <h2 data-zh="下载页面" data-en="Download Page">下载页面</h2>
@@ -296,7 +295,6 @@
             </div>
         </div>
 
-        <!-- 问题及反馈页 -->
         <div id="feedback" class="tab-content">
             <div class="placeholder-page">
                 <h2 data-zh="问题及反馈" data-en="Feedback">问题及反馈</h2>
@@ -304,7 +302,6 @@
             </div>
         </div>
 
-        <!-- 已登记的BUG页 -->
         <div id="bugs" class="tab-content">
             <div class="placeholder-page">
                 <h2 data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</h2>
@@ -312,7 +309,6 @@
             </div>
         </div>
 
-        <!-- 支持我们页 -->
         <div id="support" class="tab-content">
             <div class="placeholder-page">
                 <h2 data-zh="支持我们" data-en="Support Us">支持我们</h2>
@@ -330,41 +326,32 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        // 夜览模式切换（带5秒过渡）
+        // 夜览模式切换（太阳/月亮图标）
         let isDarkMode = false;
         function toggleTheme() {
             isDarkMode = !isDarkMode;
+            const themeBtn = document.getElementById('themeToggle');
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
-                document.getElementById('themeToggle').innerHTML = '⬜ 日间';
+                themeBtn.innerHTML = '🌙'; // 黑夜模式显示月亮
             } else {
                 document.body.classList.remove('dark-mode');
-                document.getElementById('themeToggle').innerHTML = '⬛ 夜览';
+                themeBtn.innerHTML = '☀️'; // 白天模式显示太阳
             }
         }
 
         // 语言切换
-        let currentLang = 'zh';
-        function toggleLanguage() {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            const langBtn = document.getElementById('langToggle');
+        function changeLanguage(lang) {
             const elements = document.querySelectorAll('[data-zh]');
             
             // 遍历所有带有 data-zh 和 data-en 属性的元素
             elements.forEach(el => {
-                if (currentLang === 'zh') {
+                if (lang === 'zh') {
                     el.textContent = el.getAttribute('data-zh');
                 } else {
                     el.textContent = el.getAttribute('data-en');
                 }
             });
-
-            // 更新按钮上的文字和国旗
-            if (currentLang === 'zh') {
-                langBtn.innerHTML = '🇨🇳 简体中文';
-            } else {
-                langBtn.innerHTML = '🇺🇸 English';
-            }
         }
     </script>
 </body>
