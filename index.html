@@ -69,8 +69,8 @@
             /* 水平垂直完全居中 */
             justify-content: center; 
             align-items: center;     
-            /* 上左右正常，底部多留出 15vh 的空间，使得整体视觉往上移 */
-            padding: 20px 20px 15vh 20px;
+            /* 【关键调整】底部留白从 15vh 减小到 6vh，只往上提一点点 */
+            padding: 20px 20px 6vh 20px;
         }
 
         .tab-content {
@@ -176,8 +176,8 @@
                 font-size: 14px;
             }
             main {
-                /* 手机端底部也留出空间 */
-                padding: 20px 20px 15vh 20px;
+                /* 手机端底部也留出一点空间 */
+                padding: 20px 20px 6vh 20px;
             }
         }
     </style>
