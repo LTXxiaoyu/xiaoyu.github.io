@@ -12,6 +12,7 @@
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
 
+        /* 核心全局样式：增加 5秒 缓慢过渡动画 */
         body {
             background-color: #ffffff;
             color: #333333;
@@ -19,6 +20,13 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: background-color 5s ease, color 5s ease; /* 5秒过渡 */
+        }
+
+        /* 夜览模式下的全局颜色 */
+        body.dark-mode {
+            background-color: #121212;
+            color: #eeeeee;
         }
 
         /* 顶部导航栏 */
@@ -28,6 +36,12 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background-color 5s ease, box-shadow 5s ease;
+        }
+
+        body.dark-mode header {
+            background-color: #1e1e1e;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
         }
 
         nav {
@@ -38,6 +52,7 @@
             align-items: center;
             gap: 60px;
             padding: 15px 20px;
+            position: relative;
         }
 
         nav a {
@@ -47,9 +62,13 @@
             font-weight: 500;
             padding-bottom: 5px;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
+            transition: color 5s ease, border-color 5s ease; /* 5秒过渡 */
             cursor: pointer;
             white-space: nowrap;
+        }
+
+        body.dark-mode nav a {
+            color: #aaaaaa;
         }
 
         nav a:hover {
@@ -59,6 +78,48 @@
         nav a.active {
             color: #2b9bff;
             border-bottom: 3px solid #2b9bff;
+        }
+
+        /* 右上角控制按钮组 */
+        .nav-controls {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            user-select: none;
+            transition: opacity 0.3s;
+        }
+
+        .control-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* 黑色方框：夜览模式 */
+        .theme-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #333;
+        }
+
+        body.dark-mode .theme-btn {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #ccc;
+        }
+
+        /* 黄色方框：语言切换 */
+        .lang-btn {
+            background-color: #ffc107;
+            color: #333333;
+            border: 1px solid #e0a800;
         }
 
         /* 主内容区域 */
@@ -118,6 +179,11 @@
             color: #222222;
             margin-bottom: 20px;
             letter-spacing: 1px;
+            transition: color 5s ease; /* 5秒过渡 */
+        }
+
+        body.dark-mode .intro-text h1 {
+            color: #ffffff;
         }
 
         .intro-text p {
@@ -125,6 +191,11 @@
             line-height: 1.8;
             color: #555555;
             margin-bottom: 15px;
+            transition: color 5s ease; /* 5秒过渡 */
+        }
+
+        body.dark-mode .intro-text p {
+            color: #cccccc;
         }
 
         /* 动画关键帧 */
@@ -145,6 +216,11 @@
             width: 100%;
             color: #999;
             font-size: 20px;
+            transition: color 5s ease;
+        }
+
+        body.dark-mode .placeholder-page {
+            color: #666;
         }
 
         /* 手机端适配 */
@@ -161,9 +237,13 @@
             nav {
                 gap: 15px; 
                 flex-wrap: wrap;
+                padding-top: 50px; /* 给右上角按钮留位置 */
             }
             nav a {
                 font-size: 14px;
+            }
+            .nav-controls {
+                top: 10px;
             }
             main {
                 padding: 20px 20px 130px 20px;
@@ -176,11 +256,17 @@
     <!-- 顶部导航 -->
     <header>
         <nav>
-            <a class="active" onclick="switchTab(event, 'intro')">介绍</a>
-            <a onclick="switchTab(event, 'download')">下载</a>
-            <a onclick="switchTab(event, 'feedback')">问题及反馈</a>
-            <a onclick="switchTab(event, 'bugs')">已登记的BUG</a>
-            <a onclick="switchTab(event, 'support')">支持我们</a>
+            <a class="active" onclick="switchTab(event, 'intro')" data-zh="介绍" data-en="Intro">介绍</a>
+            <a onclick="switchTab(event, 'download')" data-zh="下载" data-en="Download">下载</a>
+            <a onclick="switchTab(event, 'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
+            <a onclick="switchTab(event, 'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
+            <a onclick="switchTab(event, 'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
+            
+            <!-- 右上角控制开关 -->
+            <div class="nav-controls">
+                <div class="control-btn theme-btn" id="themeToggle" onclick="toggleTheme()">⬛ 夜览</div>
+                <div class="control-btn lang-btn" id="langToggle" onclick="toggleLanguage()">🇨🇳 简体中文</div>
+            </div>
         </nav>
     </header>
 
@@ -191,10 +277,13 @@
             <div class="intro-container">
                 <img src="icon.png" alt="XY启动器 图标" class="intro-icon">
                 <div class="intro-text">
-                    <h1>XY启动器</h1>
-                    <p>XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
-                    <p>无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。</p>
-                    <p>我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。</p>
+                    <h1 id="mainTitle" data-zh="XY启动器" data-en="XY Launcher">XY启动器</h1>
+                    <p data-zh="XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。" 
+                       data-en="XY Launcher is a lightweight launcher designed specifically for Minecraft Java Edition players. It features a clean interface, supports multi-version management, automatic file downloading, and a smooth launch experience.">XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
+                    <p data-zh="无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。" 
+                       data-en="Whether you are an adventurer who loves vanilla survival or a creator who enjoys modpacks, XY Launcher helps you enter the blocky world quickly and unlock infinite possibilities.">无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。</p>
+                    <p data-zh="我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。" 
+                       data-en="We are committed to providing a pure, stable, and efficient launch service, allowing you to focus more energy on the fun of the game itself.">我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。</p>
                 </div>
             </div>
         </div>
@@ -202,44 +291,80 @@
         <!-- 下载页 -->
         <div id="download" class="tab-content">
             <div class="placeholder-page">
-                <h2>下载页面</h2>
-                <p>这里后续放下载按钮和版本列表</p>
+                <h2 data-zh="下载页面" data-en="Download Page">下载页面</h2>
+                <p data-zh="这里后续放下载按钮和版本列表" data-en="Download buttons and version list will be here.">这里后续放下载按钮和版本列表</p>
             </div>
         </div>
 
         <!-- 问题及反馈页 -->
         <div id="feedback" class="tab-content">
             <div class="placeholder-page">
-                <h2>问题及反馈</h2>
-                <p>这里后续放常见问题和反馈渠道</p>
+                <h2 data-zh="问题及反馈" data-en="Feedback">问题及反馈</h2>
+                <p data-zh="这里后续放常见问题和反馈渠道" data-en="FAQ and feedback channels will be here.">这里后续放常见问题和反馈渠道</p>
             </div>
         </div>
 
         <!-- 已登记的BUG页 -->
         <div id="bugs" class="tab-content">
             <div class="placeholder-page">
-                <h2>已登记的BUG</h2>
-                <p>这里后续展示已修复或正在处理的BUG列表</p>
+                <h2 data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</h2>
+                <p data-zh="这里后续展示已修复或正在处理的BUG列表" data-en="List of fixed or in-progress bugs.">这里后续展示已修复或正在处理的BUG列表</p>
             </div>
         </div>
 
         <!-- 支持我们页 -->
         <div id="support" class="tab-content">
             <div class="placeholder-page">
-                <h2>支持我们</h2>
-                <p>这里后续放赞助方式和感谢名单</p>
+                <h2 data-zh="支持我们" data-en="Support Us">支持我们</h2>
+                <p data-zh="这里后续放赞助方式和感谢名单" data-en="Sponsorship methods and acknowledgments.">这里后续放赞助方式和感谢名单</p>
             </div>
         </div>
     </main>
 
-    <!-- 切换标签逻辑 -->
     <script>
+        // 切换标签
         function switchTab(event, tabId) {
             document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
+        }
+
+        // 夜览模式切换（带5秒过渡）
+        let isDarkMode = false;
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').innerHTML = '⬜ 日间';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('themeToggle').innerHTML = '⬛ 夜览';
+            }
+        }
+
+        // 语言切换
+        let currentLang = 'zh';
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            const langBtn = document.getElementById('langToggle');
+            const elements = document.querySelectorAll('[data-zh]');
+            
+            // 遍历所有带有 data-zh 和 data-en 属性的元素
+            elements.forEach(el => {
+                if (currentLang === 'zh') {
+                    el.textContent = el.getAttribute('data-zh');
+                } else {
+                    el.textContent = el.getAttribute('data-en');
+                }
+            });
+
+            // 更新按钮上的文字和国旗
+            if (currentLang === 'zh') {
+                langBtn.innerHTML = '🇨🇳 简体中文';
+            } else {
+                langBtn.innerHTML = '🇺🇸 English';
+            }
         }
     </script>
 </body>
