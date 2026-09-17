@@ -69,7 +69,8 @@
             /* 水平垂直完全居中 */
             justify-content: center; 
             align-items: center;     
-            padding: 20px;
+            /* 上左右正常，底部多留出 15vh 的空间，使得整体视觉往上移 */
+            padding: 20px 20px 15vh 20px;
         }
 
         .tab-content {
@@ -90,7 +91,6 @@
             gap: 50px;
             max-width: 1200px;
             width: 100%;
-            margin-left: 0; /* 去除原本的左边距 */
         }
 
         /* 启动器图标 */
@@ -107,7 +107,7 @@
             filter: drop-shadow(0 10px 20px rgba(43, 155, 255, 0.3));
             object-fit: cover;
             flex-shrink: 0;
-            background-color: #f0f8ff; /* 防止图片透明时看不见边界 */
+            background-color: #f0f8ff;
             
             /* 图标动画：1.5秒 */
             animation: slideUpFadeIn 1.5s ease-out forwards;
@@ -176,7 +176,8 @@
                 font-size: 14px;
             }
             main {
-                padding: 20px 20px;
+                /* 手机端底部也留出空间 */
+                padding: 20px 20px 15vh 20px;
             }
         }
     </style>
@@ -188,7 +189,6 @@
             <a class="active" onclick="switchTab(event, 'intro')">介绍</a>
             <a onclick="switchTab(event, 'download')">下载</a>
             <a onclick="switchTab(event, 'feedback')">问题及反馈</a>
-            <!-- 新增选项 -->
             <a onclick="switchTab(event, 'bugs')">已登记的BUG</a>
             <a onclick="switchTab(event, 'support')">支持我们</a>
         </nav>
@@ -201,7 +201,6 @@
                 <img src="icon.png" alt="XY启动器 图标" class="intro-icon">
                 
                 <div class="intro-text">
-                    <!-- 标题已改为 XY启动器 -->
                     <h1>XY启动器</h1>
                     <p>XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
                     <p>无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。</p>
@@ -245,17 +244,13 @@
 
     <script>
         function switchTab(event, tabId) {
-            // 移除所有导航的 active 状态
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => link.classList.remove('active'));
-            // 给当前点击的选项添加 active 状态
             event.currentTarget.classList.add('active');
 
-            // 隐藏所有内容区域
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // 显示对应的内容区域
             const targetContent = document.getElementById(tabId);
             if (targetContent) {
                 targetContent.classList.add('active');
