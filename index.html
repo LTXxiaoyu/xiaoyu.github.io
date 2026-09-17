@@ -64,17 +64,16 @@
             border-bottom: 3px solid #2b9bff;
         }
 
-        /* ================= 主内容区域 ================= */
+/* ================= 主内容区域 ================= */
         main {
             flex: 1;
             display: flex;
             justify-content: flex-start;
-            /* 从居中改为顶部对齐，使文字在屏幕上半部分 */
-            align-items: flex-start; 
-            /* 减小上内边距，让内容整体上移 */
-            padding: 20px 10%; 
+            /* 修改这里：改为垂直居中，内容就会整体下移到屏幕中间偏下的位置 */
+            align-items: center; 
+            /* 去掉上下内边距，让 flex 直接决定垂直位置 */
+            padding: 0 10%; 
         }
-
         .tab-content {
             display: none;
             width: 100%;
