@@ -53,7 +53,7 @@
             position: relative;
         }
 
-        /* 导航栏链接和按钮的通用样式（去除颜色，融入导航栏） */
+        /* 导航栏链接和下拉框的通用样式（完全统一风格） */
         nav a, .nav-ctrl {
             text-decoration: none;
             color: #666666;
@@ -91,7 +91,7 @@
             align-items: center;
         }
 
-        /* 语言选择下拉框（透明方框风格） */
+        /* 下拉框的方框风格（透明背景，带边框和自定义箭头） */
         select.nav-ctrl {
             appearance: none;        /* 移除系统默认的丑陋下拉箭头样式 */
             -webkit-appearance: none;
@@ -257,10 +257,13 @@
             <a onclick="switchTab(event, 'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
             <a onclick="switchTab(event, 'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
             
-            <!-- 右上角控制开关（融入导航栏风格） -->
+            <!-- 右上角控制开关（完全统一为方框下拉框） -->
             <div class="nav-controls">
-                <!-- 夜览图标：默认显示太阳 -->
-                <button class="nav-ctrl" id="themeToggle" onclick="toggleTheme()" title="切换日夜模式">☀️</button>
+                <!-- 白天/黑夜下拉框 -->
+                <select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
+                    <option value="light" data-zh="白天" data-en="Light">白天</option>
+                    <option value="dark" data-zh="黑夜" data-en="Dark">黑夜</option>
+                </select>
                 
                 <!-- 语言切换下拉框 -->
                 <select class="nav-ctrl" id="langSelect" onchange="changeLanguage(this.value)" title="选择语言">
@@ -326,17 +329,12 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        // 夜览模式切换（太阳/月亮图标）
-        let isDarkMode = false;
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            const themeBtn = document.getElementById('themeToggle');
-            if (isDarkMode) {
+        // 主题切换（白天/黑夜）
+        function changeTheme(theme) {
+            if (theme === 'dark') {
                 document.body.classList.add('dark-mode');
-                themeBtn.innerHTML = '🌙'; // 黑夜模式显示月亮
             } else {
                 document.body.classList.remove('dark-mode');
-                themeBtn.innerHTML = '☀️'; // 白天模式显示太阳
             }
         }
 
