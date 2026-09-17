@@ -69,8 +69,8 @@
             /* 垂直水平居中 */
             justify-content: center; 
             align-items: center;     
-            /* 去掉底部多余的留白，让红线尽可能贴近黑线 */
-            padding: 20px; 
+            /* 【关键修改】底部增加 60px 内边距（约0.6厘米），把整体往上顶 */
+            padding: 20px 20px 60px 20px; 
         }
 
         .tab-content {
@@ -95,7 +95,7 @@
 
         /* 启动器图标 */
         .intro-icon {
-            /* 【关键修改】将图标从 280px 缩小到 200px，让整体更紧凑 */
+            /* 保持上次缩小的 200px 大小 */
             width: 200px; 
             height: 200px;
             /* 八边形裁剪路径 */
@@ -166,19 +166,19 @@
                 gap: 30px;
             }
             .intro-icon {
-                /* 手机端图标也相应调整，保持比例协调 */
                 width: 160px;
                 height: 160px;
             }
             nav {
-                gap: 15px; /* 手机屏幕小，5个选项间距改小 */
+                gap: 15px; 
                 flex-wrap: wrap;
             }
             nav a {
                 font-size: 14px;
             }
             main {
-                padding: 20px;
+                /* 手机端同样增加底部内边距，把内容往上顶 */
+                padding: 20px 20px 60px 20px;
             }
         }
     </style>
