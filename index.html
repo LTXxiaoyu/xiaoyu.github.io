@@ -37,7 +37,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 60px; /* 加大选项之间的间距 */
+            gap: 60px; /* 选项之间的间距 */
             padding: 15px 20px;
         }
 
@@ -66,11 +66,11 @@
         main {
             flex: 1;
             display: flex;
-            /* 水平垂直完全居中 */
+            /* 垂直水平居中 */
             justify-content: center; 
             align-items: center;     
-            /* 【关键调整】底部留白从 15vh 减小到 6vh，只往上提一点点 */
-            padding: 20px 20px 2vh 20px;
+            /* 去掉底部多余的留白，让红线尽可能贴近黑线 */
+            padding: 20px; 
         }
 
         .tab-content {
@@ -87,7 +87,7 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: center; /* 内部也居中 */
+            justify-content: center; /* 内部居中 */
             gap: 50px;
             max-width: 1200px;
             width: 100%;
@@ -95,8 +95,9 @@
 
         /* 启动器图标 */
         .intro-icon {
-            width: 280px;
-            height: 280px;
+            /* 【关键修改】将图标从 280px 缩小到 200px，让整体更紧凑 */
+            width: 200px; 
+            height: 200px;
             /* 八边形裁剪路径 */
             clip-path: polygon(
                 29.3% 0%, 70.7% 0%, 
@@ -165,8 +166,9 @@
                 gap: 30px;
             }
             .intro-icon {
-                width: 180px;
-                height: 180px;
+                /* 手机端图标也相应调整，保持比例协调 */
+                width: 160px;
+                height: 160px;
             }
             nav {
                 gap: 15px; /* 手机屏幕小，5个选项间距改小 */
@@ -176,8 +178,7 @@
                 font-size: 14px;
             }
             main {
-                /* 手机端底部也留出一点空间 */
-                padding: 20px 20px 6vh 20px;
+                padding: 20px;
             }
         }
     </style>
