@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XY启动器 - 官方下载站</title>
     <style>
-        /* ================= 基础重置与全局样式 ================= */
         * {
             margin: 0;
             padding: 0;
@@ -16,13 +15,13 @@
         body {
             background-color: #ffffff;
             color: #333333;
-            height: 100vh; /* 锁定高度为屏幕高度 */
-            overflow: hidden; /* 禁止页面滚动 */
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* ================= 顶部导航栏 ================= */
+        /* 顶部导航栏 */
         header {
             background-color: #ffffff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -37,7 +36,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 60px; /* 选项之间的间距 */
+            gap: 60px;
             padding: 15px 20px;
         }
 
@@ -50,7 +49,7 @@
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
             cursor: pointer;
-            white-space: nowrap; /* 防止文字换行 */
+            white-space: nowrap;
         }
 
         nav a:hover {
@@ -62,15 +61,13 @@
             border-bottom: 3px solid #2b9bff;
         }
 
-        /* ================= 主内容区域 ================= */
+        /* 主内容区域 */
         main {
             flex: 1;
             display: flex;
-            /* 垂直水平居中 */
             justify-content: center; 
             align-items: center;     
-            /* 【关键修改】底部内边距增加到 125px  */
-            padding: 20px 20px 125px 20px; 
+            padding: 20px 20px 130px 20px; 
         }
 
         .tab-content {
@@ -82,22 +79,20 @@
             display: block;
         }
 
-        /* ================= 介绍页面布局 ================= */
+        /* 介绍页面布局 */
         .intro-container {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: center; /* 内部居中 */
+            justify-content: center;
             gap: 50px;
             max-width: 1200px;
             width: 100%;
         }
 
-        /* 启动器图标 */
         .intro-icon {
             width: 200px; 
             height: 200px;
-            /* 八边形裁剪路径 */
             clip-path: polygon(
                 29.3% 0%, 70.7% 0%, 
                 100% 29.3%, 100% 70.7%, 
@@ -108,17 +103,12 @@
             object-fit: cover;
             flex-shrink: 0;
             background-color: #f0f8ff;
-            
-            /* 图标动画：1.5秒 */
             animation: slideUpFadeIn 1.5s ease-out forwards;
         }
 
-        /* 介绍文字 */
         .intro-text {
             flex: 1;
             min-width: 300px;
-            
-            /* 文字动画：1.5秒，延迟0.2秒错开出场 */
             animation: slideUpFadeIn 1.5s ease-out 0.2s forwards;
             opacity: 0;
         }
@@ -137,7 +127,7 @@
             margin-bottom: 15px;
         }
 
-        /* ================= 动画关键帧 ================= */
+        /* 动画关键帧 */
         @keyframes slideUpFadeIn {
             from {
                 opacity: 0;
@@ -149,7 +139,7 @@
             }
         }
 
-        /* ================= 其他页面占位 ================= */
+        /* 其他页面占位 */
         .placeholder-page {
             text-align: center;
             width: 100%;
@@ -157,7 +147,7 @@
             font-size: 20px;
         }
 
-        /* ================= 响应式设计 (手机端) ================= */
+        /* 手机端适配 */
         @media (max-width: 768px) {
             .intro-container {
                 flex-direction: column;
@@ -176,14 +166,14 @@
                 font-size: 14px;
             }
             main {
-                /* 手机端同步上移 */
-                padding: 20px 20px 80px 20px;
+                padding: 20px 20px 130px 20px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- 顶部导航 -->
     <header>
         <nav>
             <a class="active" onclick="switchTab(event, 'intro')">介绍</a>
@@ -194,12 +184,12 @@
         </nav>
     </header>
 
+    <!-- 主内容 -->
     <main>
         <!-- 介绍页 -->
         <div id="intro" class="tab-content active">
             <div class="intro-container">
                 <img src="icon.png" alt="XY启动器 图标" class="intro-icon">
-                
                 <div class="intro-text">
                     <h1>XY启动器</h1>
                     <p>XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
@@ -211,14 +201,14 @@
 
         <!-- 下载页 -->
         <div id="download" class="tab-content">
-            <="feedbackdiv class="placeholder-page">
-               " <h2>下载页面</h2>
-                < classp>这里后续放下载按钮和版本列表</p>
-            </div=">
-        </divtab>
+            <div class="placeholder-page">
+                <h2>下载页面</h2>
+                <p>这里后续放下载按钮和版本列表</p>
+            </div>
+        </div>
 
         <!-- 问题及反馈页 -->
-        <div id-content">
+        <div id="feedback" class="tab-content">
             <div class="placeholder-page">
                 <h2>问题及反馈</h2>
                 <p>这里后续放常见问题和反馈渠道</p>
@@ -242,19 +232,14 @@
         </div>
     </main>
 
+    <!-- 切换标签逻辑 -->
     <script>
         function switchTab(event, tabId) {
-            const navLinks = document.querySelectorAll('nav a');
-            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
             event.currentTarget.classList.add('active');
-
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
             
-            const targetContent = document.getElementById(tabId);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
         }
     </script>
 </body>
