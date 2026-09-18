@@ -11,14 +11,29 @@ body.dark-mode{background-color:#121212;color:#eeeeee;}
 header{background-color:#ffffff;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;transition:background-color 5s ease,box-shadow 5s ease;flex-shrink:0;}
 body.dark-mode header{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(255,255,255,0.05);}
 nav{max-width:1200px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:50px;padding:15px 20px;position:relative;}
-nav a,.nav-ctrl{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-bottom:5px;border-bottom:3px solid transparent;transition:color 0.3s ease,border-color 0.3s ease;cursor:pointer;white-space:nowrap;background:transparent;border:none;outline:none;}
-body.dark-mode nav a,body.dark-mode .nav-ctrl{color:#aaaaaa;}
-nav a:hover,.nav-ctrl:hover{color:#2b9bff;}
+nav a{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-bottom:5px;border-bottom:3px solid transparent;transition:color 0.3s ease,border-color 0.3s ease;cursor:pointer;white-space:nowrap;}
+body.dark-mode nav a{color:#aaaaaa;}
+nav a:hover{color:#2b9bff;}
 nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
-.nav-controls{position:absolute;right:20px;display:flex;gap:25px;align-items:center;}
-select.nav-ctrl{appearance:none;-webkit-appearance:none;padding:4px 25px 4px 8px;border:1px solid #cccccc;border-radius:4px;cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-size:14px;}
-body.dark-mode select.nav-ctrl{border-color:#555555;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");}
-select.nav-ctrl option{color:#333;background-color:#fff;}
+.nav-controls{position:absolute;right:20px;display:flex;gap:20px;align-items:center;}
+
+.theme-toggle{position:relative;width:64px;height:32px;background:#e6ecf2;border-radius:16px;cursor:pointer;transition:background-color .3s;flex-shrink:0;}
+body.dark-mode .theme-toggle{background:#333;}
+.theme-toggle .knob{position:absolute;top:3px;left:3px;width:26px;height:26px;background:#fff;border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,0.15);transition:transform .3s ease;display:flex;align-items:center;justify-content:center;font-size:14px;}
+body.dark-mode .theme-toggle .knob{transform:translateX(32px);background:#2b9bff;}
+
+.lang-toggle{position:relative;width:78px;height:32px;background:#e6ecf2;border-radius:16px;cursor:pointer;transition:background-color .3s;flex-shrink:0;}
+body.dark-mode .lang-toggle{background:#333;}
+.lang-toggle .knob{position:absolute;top:3px;left:3px;width:36px;height:26px;background:#2b9bff;border-radius:13px;box-shadow:0 2px 5px rgba(0,0,0,0.15);transition:transform .3s ease;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:bold;}
+.lang-toggle.en .knob{transform:translateX(36px);}
+.lang-toggle .label-left,.lang-toggle .label-right{position:absolute;top:50%;transform:translateY(-50%);font-size:11px;font-weight:bold;transition:color .3s;pointer-events:none;}
+.lang-toggle .label-left{left:11px;color:#fff;}
+.lang-toggle .label-right{right:11px;color:#666;}
+body.dark-mode .lang-toggle .label-right{color:#aaa;}
+.lang-toggle.en .label-left{color:#666;}
+body.dark-mode .lang-toggle.en .label-left{color:#aaa;}
+.lang-toggle.en .label-right{color:#fff;}
+
 main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
 .tab-content{display:none;width:100%;}
 .tab-content.active{display:block;}
@@ -34,12 +49,12 @@ body.dark-mode .intro-text p{color:#cccccc;}
 body.dark-mode .placeholder-page{color:#666;}
 
 .download-page{max-width:1300px;margin:0 auto 150px;width:100%;padding:10px 0;}
-.download-title{text-align:center;font-size:26px;color:#222;margin-bottom:8px;font-weight:bold;transition:color 5s ease;}
+.download-title{text-align:center;font-size:26px;color:#222;margin-bottom:8px;font-weight:bold;transition:color 5s ease;opacity:0;}
 body.dark-mode .download-title{color:#fff;}
-.download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color 5s ease;}
+.download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color 5s ease;opacity:0;}
 body.dark-mode .download-subtitle{color:#aaa;}
 .platform-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
-.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .3s ease,background-color 5s ease,border-color 5s ease;}
+.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s ease,box-shadow .3s ease,background-color 5s ease,border-color 5s ease;opacity:0;}
 body.dark-mode .platform-card{background:#1e1e1e;border-color:#333;}
 .platform-card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(43,155,255,0.12);border-color:#2b9bff;}
 .platform-icon{width:44px;height:44px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;}
@@ -54,6 +69,15 @@ body.dark-mode .platform-desc{color:#aaa;}
 .platform-btn.developing{background:#e0e6ed;color:#8895a6;cursor:pointer;}
 body.dark-mode .platform-btn.developing{background:#333;color:#777;}
 
+#download.active .download-title{animation:slideUpFadeIn 0.8s ease-out 0s forwards;}
+#download.active .download-subtitle{animation:slideUpFadeIn 0.8s ease-out 0.15s forwards;}
+#download.active .platform-card{animation:slideUpFadeIn 0.9s ease-out forwards;}
+#download.active .platform-card:nth-child(1){animation-delay:0.30s;}
+#download.active .platform-card:nth-child(2){animation-delay:0.40s;}
+#download.active .platform-card:nth-child(3){animation-delay:0.50s;}
+#download.active .platform-card:nth-child(4){animation-delay:0.60s;}
+#download.active .platform-card:nth-child(5){animation-delay:0.70s;}
+
 .bugs-empty{text-align:center;padding:60px 20px;color:#999;transition:color 5s ease;}
 body.dark-mode .bugs-empty{color:#666;}
 .bugs-empty svg{width:64px;height:64px;margin-bottom:20px;opacity:.4;}
@@ -61,9 +85,8 @@ body.dark-mode .bugs-empty{color:#666;}
 body.dark-mode .bugs-empty h2{color:#aaa;}
 .bugs-empty p{font-size:14px;transition:color 5s ease;}
 
-.support-hero{text-align:center;padding:40px 20px;max-width:600px;margin:0 auto;}
-.support-hero svg{width:80px;height:80px;stroke:#2b9bff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:20px;}
-.support-hero h2{font-size:26px;color:#222;margin-bottom:12px;transition:color 5s ease;}
+.support-hero{text-align:center;padding:0 20px 120px;max-width:600px;margin:0 auto;}
+.support-hero h2{font-size:26px;color:#222;margin-bottom:14px;transition:color 5s ease;}
 body.dark-mode .support-hero h2{color:#fff;}
 .support-hero p{font-size:14px;color:#777;line-height:1.7;margin-bottom:28px;transition:color 5s ease;}
 body.dark-mode .support-hero p{color:#aaa;}
@@ -89,8 +112,8 @@ body.dark-mode .support-note{color:#666;}
 .intro-container{flex-direction:column;text-align:center;gap:30px;}
 .intro-icon{width:160px;height:160px;}
 nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
-nav a,.nav-ctrl{font-size:14px;}
-.nav-controls{top:10px;right:15px;gap:15px;}
+nav a{font-size:14px;}
+.nav-controls{top:10px;right:15px;gap:12px;}
 main{padding:15px;}
 .platform-grid{grid-template-columns:repeat(2,1fr);}
 #toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
@@ -110,14 +133,14 @@ main{padding:15px;}
 <a onclick="switchTab(event,'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
 <a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
 <div class="nav-controls">
-<select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
-<option value="light" data-zh="白天" data-en="Light">白天</option>
-<option value="dark" data-zh="黑夜" data-en="Dark">黑夜</option>
-</select>
-<select class="nav-ctrl" id="langSelect" onchange="changeLanguage(this.value)" title="选择语言">
-<option value="zh">简体中文</option>
-<option value="en">English</option>
-</select>
+<div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">
+<div class="knob" id="themeKnob">☀</div>
+</div>
+<div class="lang-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">
+<div class="knob"></div>
+<span class="label-left">中</span>
+<span class="label-right">EN</span>
+</div>
 </div>
 </nav>
 </header>
@@ -207,7 +230,6 @@ main{padding:15px;}
 
 <div id="support" class="tab-content">
 <div class="support-hero">
-<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
 <h2 data-zh="支持 XY 启动器" data-en="Support XY Launcher">支持 XY 启动器</h2>
 <p data-zh="每一份支持都会用于服务器维护和后续开发，感谢有你" data-en="Every contribution goes to server costs and development. Thank you.">每一份支持都会用于服务器维护和后续开发，感谢有你</p>
 <button class="support-btn" onclick="goSupport()" data-zh="前往爱发电" data-en="Go to Afdian">前往爱发电</button>
@@ -218,6 +240,7 @@ main{padding:15px;}
 
 <script>
 let currentLang = 'zh';
+let isDark = false;
 
 const ANDROID_DOWNLOAD_URL = 'YOUR_APK_URL_HERE';
 const AFDIAN_URL = 'https://afdian.com/a/xylauncher';
@@ -226,20 +249,46 @@ function switchTab(event, tabId) {
     document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
     event.currentTarget.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
+    const target = document.getElementById(tabId);
+    target.classList.add('active');
+    if (tabId === 'download') {
+        target.querySelectorAll('.download-title,.download-subtitle,.platform-card').forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = '';
+        });
+    }
 }
 
 function goSupport() {
     window.open(AFDIAN_URL, '_blank');
 }
 
-function changeTheme(theme) {
-    if (theme === 'dark') document.body.classList.add('dark-mode');
-    else document.body.classList.remove('dark-mode');
+function toggleTheme() {
+    isDark = !isDark;
+    const knob = document.getElementById('themeKnob');
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+        knob.textContent = '☾';
+    } else {
+        document.body.classList.remove('dark-mode');
+        knob.textContent = '☀';
+    }
+}
+
+function toggleLang() {
+    const toggle = document.getElementById('langToggle');
+    if (currentLang === 'zh') {
+        currentLang = 'en';
+        toggle.classList.add('en');
+    } else {
+        currentLang = 'zh';
+        toggle.classList.remove('en');
+    }
+    changeLanguage(currentLang);
 }
 
 function changeLanguage(lang) {
-    currentLang = lang;
     document.querySelectorAll('[data-zh]').forEach(el => {
         if (lang === 'zh') el.textContent = el.getAttribute('data-zh');
         else el.textContent = el.getAttribute('data-en');
