@@ -1,356 +1,262 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XY启动器 - 官方下载站</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XY启动器 - 官方下载站</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Microsoft YaHei',sans-serif;}
+body{background-color:#ffffff;color:#333333;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 5s ease,color 5s ease;}
+body.dark-mode{background-color:#121212;color:#eeeeee;}
+header{background-color:#ffffff;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;transition:background-color 5s ease,box-shadow 5s ease;}
+body.dark-mode header{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(255,255,255,0.05);}
+nav{max-width:1200px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:50px;padding:15px 20px;position:relative;}
+nav a,.nav-ctrl{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-bottom:5px;border-bottom:3px solid transparent;transition:color 0.3s ease,border-color 0.3s ease;cursor:pointer;white-space:nowrap;background:transparent;border:none;outline:none;}
+body.dark-mode nav a,body.dark-mode .nav-ctrl{color:#aaaaaa;}
+nav a:hover,.nav-ctrl:hover{color:#2b9bff;}
+nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
+.nav-controls{position:absolute;right:20px;display:flex;gap:25px;align-items:center;}
+select.nav-ctrl{appearance:none;-webkit-appearance:none;padding:4px 25px 4px 8px;border:1px solid #cccccc;border-radius:4px;cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-size:14px;}
+body.dark-mode select.nav-ctrl{border-color:#555555;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");}
+select.nav-ctrl option{color:#333;background-color:#fff;}
+main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px 20px 130px 20px;overflow-y:auto;}
+.tab-content{display:none;width:100%;}
+.tab-content.active{display:block;}
+.intro-container{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:50px;max-width:1200px;width:100%;margin:0 auto;}
+.intro-icon{width:200px;height:200px;clip-path:polygon(29.3% 0%,70.7% 0%,100% 29.3%,100% 70.7%,70.7% 100%,29.3% 100%,0% 70.7%,0% 29.3%);filter:drop-shadow(0 10px 20px rgba(43,155,255,0.3));object-fit:cover;flex-shrink:0;background-color:#f0f8ff;animation:slideUpFadeIn 1.5s ease-out forwards;}
+.intro-text{flex:1;min-width:300px;animation:slideUpFadeIn 1.5s ease-out 0.2s forwards;opacity:0;}
+.intro-text h1{font-size:36px;color:#222222;margin-bottom:20px;letter-spacing:1px;transition:color 5s ease;}
+body.dark-mode .intro-text h1{color:#ffffff;}
+.intro-text p{font-size:16px;line-height:1.8;color:#555555;margin-bottom:15px;transition:color 5s ease;}
+body.dark-mode .intro-text p{color:#cccccc;}
+@keyframes slideUpFadeIn{from{opacity:0;transform:translateY(120px);}to{opacity:1;transform:translateY(0);}}
+.placeholder-page{text-align:center;width:100%;color:#999;font-size:20px;transition:color 5s ease;}
+body.dark-mode .placeholder-page{color:#666;}
 
-        body {
-            background-color: #ffffff;
-            color: #333333;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: background-color 5s ease, color 5s ease;
-        }
+.download-page{max-width:1100px;margin:0 auto;width:100%;padding:20px 0;}
+.download-title{text-align:center;font-size:28px;color:#222;margin-bottom:10px;font-weight:bold;transition:color 5s ease;}
+body.dark-mode .download-title{color:#fff;}
+.download-subtitle{text-align:center;font-size:14px;color:#888;margin-bottom:40px;transition:color 5s ease;}
+body.dark-mode .download-subtitle{color:#aaa;}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:14px;padding:25px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .3s ease,background-color 5s ease,border-color 5s ease;}
+body.dark-mode .platform-card{background:#1e1e1e;border-color:#333;}
+.platform-card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(43,155,255,0.12);border-color:#2b9bff;}
+.platform-icon{width:56px;height:56px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;}
+.platform-icon svg{width:100%;height:100%;}
+.platform-name{font-size:18px;font-weight:bold;color:#222;margin-bottom:6px;transition:color 5s ease;}
+body.dark-mode .platform-name{color:#fff;}
+.platform-desc{font-size:12px;color:#888;margin-bottom:18px;min-height:32px;line-height:1.5;transition:color 5s ease;}
+body.dark-mode .platform-desc{color:#aaa;}
+.platform-btn{width:100%;padding:10px 20px;border-radius:8px;border:none;font-size:14px;font-weight:bold;cursor:pointer;transition:opacity .25s,background-color .3s;}
+.platform-btn.available{background:#2b9bff;color:#fff;}
+.platform-btn.available:hover{opacity:.85;}
+.platform-btn.developing{background:#e0e6ed;color:#8895a6;cursor:not-allowed;}
+body.dark-mode .platform-btn.developing{background:#333;color:#777;}
 
-        body.dark-mode {
-            background-color: #121212;
-            color: #eeeeee;
-        }
+#toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none;}
+.site-toast{color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.15);font-size:14px;font-weight:500;margin-bottom:10px;max-width:320px;animation:siteToastIn .3s ease forwards;white-space:normal;line-height:1.5;}
+.site-toast.warning{background:#f59e0b;}
+.site-toast.complete{background:#10b981;}
+.site-toast.error{background:#ef4444;}
+@keyframes siteToastIn{from{transform:translateX(120%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.site-toast.hide{animation:siteToastOut .3s ease forwards;}
+@keyframes siteToastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
 
-        /* 顶部导航栏 */
-        header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: background-color 5s ease, box-shadow 5s ease;
-        }
-
-        body.dark-mode header {
-            background-color: #1e1e1e;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            padding: 15px 20px;
-            position: relative;
-        }
-
-        /* 导航栏链接和下拉框的通用样式（完全统一风格） */
-        nav a, .nav-ctrl {
-            text-decoration: none;
-            color: #666666;
-            font-size: 16px;
-            font-weight: 500;
-            padding-bottom: 5px;
-            border-bottom: 3px solid transparent;
-            transition: color 0.3s ease, border-color 0.3s ease;
-            cursor: pointer;
-            white-space: nowrap;
-            background: transparent;
-            border: none;
-            outline: none;
-        }
-
-        body.dark-mode nav a, body.dark-mode .nav-ctrl {
-            color: #aaaaaa;
-        }
-
-        nav a:hover, .nav-ctrl:hover {
-            color: #2b9bff;
-        }
-
-        nav a.active {
-            color: #2b9bff;
-            border-bottom: 3px solid #2b9bff;
-        }
-
-        /* 右侧控制按钮组 */
-        .nav-controls {
-            position: absolute;
-            right: 20px;
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        /* 下拉框的方框风格（透明背景，带边框和自定义箭头） */
-        select.nav-ctrl {
-            appearance: none;        /* 移除系统默认的丑陋下拉箭头样式 */
-            -webkit-appearance: none;
-            padding: 4px 25px 4px 8px; /* 留出一点右侧空间给自定义箭头 */
-            border: 1px solid #cccccc; /* 方框边框 */
-            border-radius: 4px;
-            cursor: pointer;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 4px center;
-            background-size: 14px;
-        }
-
-        body.dark-mode select.nav-ctrl {
-            border-color: #555555;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-        }
-
-        select.nav-ctrl option {
-            color: #333;
-            background-color: #fff;
-        }
-
-        /* 主内容区域 */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center; 
-            align-items: center;     
-            padding: 20px 20px 130px 20px; 
-        }
-
-        .tab-content {
-            display: none;
-            width: 100%;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* 介绍页面布局 */
-        .intro-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 50px;
-            max-width: 1200px;
-            width: 100%;
-        }
-
-        .intro-icon {
-            width: 200px; 
-            height: 200px;
-            clip-path: polygon(
-                29.3% 0%, 70.7% 0%, 
-                100% 29.3%, 100% 70.7%, 
-                70.7% 100%, 29.3% 100%, 
-                0% 70.7%, 0% 29.3%
-            );
-            filter: drop-shadow(0 10px 20px rgba(43, 155, 255, 0.3));
-            object-fit: cover;
-            flex-shrink: 0;
-            background-color: #f0f8ff;
-            animation: slideUpFadeIn 1.5s ease-out forwards;
-        }
-
-        .intro-text {
-            flex: 1;
-            min-width: 300px;
-            animation: slideUpFadeIn 1.5s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        .intro-text h1 {
-            font-size: 36px;
-            color: #222222;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            transition: color 5s ease;
-        }
-
-        body.dark-mode .intro-text h1 {
-            color: #ffffff;
-        }
-
-        .intro-text p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #555555;
-            margin-bottom: 15px;
-            transition: color 5s ease;
-        }
-
-        body.dark-mode .intro-text p {
-            color: #cccccc;
-        }
-
-        /* 动画关键帧 */
-        @keyframes slideUpFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(120px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 其他页面占位 */
-        .placeholder-page {
-            text-align: center;
-            width: 100%;
-            color: #999;
-            font-size: 20px;
-            transition: color 5s ease;
-        }
-
-        body.dark-mode .placeholder-page {
-            color: #666;
-        }
-
-        /* 手机端适配 */
-        @media (max-width: 768px) {
-            .intro-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
-            }
-            .intro-icon {
-                width: 160px;
-                height: 160px;
-            }
-            nav {
-                gap: 15px; 
-                flex-wrap: wrap;
-                padding-top: 50px; 
-            }
-            nav a, .nav-ctrl {
-                font-size: 14px;
-            }
-            .nav-controls {
-                top: 10px;
-                right: 15px;
-                gap: 15px;
-            }
-            main {
-                padding: 20px 20px 130px 20px;
-            }
-        }
-    </style>
+@media (max-width:768px){
+.intro-container{flex-direction:column;text-align:center;gap:30px;}
+.intro-icon{width:160px;height:160px;}
+nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
+nav a,.nav-ctrl{font-size:14px;}
+.nav-controls{top:10px;right:15px;gap:15px;}
+main{padding:20px 15px 130px 15px;}
+.platform-grid{grid-template-columns:1fr;}
+#toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
+.site-toast{max-width:100%;}
+}
+</style>
 </head>
 <body>
 
-    <!-- 顶部导航 -->
-    <header>
-        <nav>
-            <a class="active" onclick="switchTab(event, 'intro')" data-zh="介绍" data-en="Intro">介绍</a>
-            <a onclick="switchTab(event, 'download')" data-zh="下载" data-en="Download">下载</a>
-            <a onclick="switchTab(event, 'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
-            <a onclick="switchTab(event, 'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
-            <a onclick="switchTab(event, 'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
-            
-            <!-- 右上角控制开关（完全统一为方框下拉框） -->
-            <div class="nav-controls">
-                <!-- 白天/黑夜下拉框 -->
-                <select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
-                    <option value="light" data-zh="白天" data-en="Light">白天</option>
-                    <option value="dark" data-zh="黑夜" data-en="Dark">黑夜</option>
-                </select>
-                
-                <!-- 语言切换下拉框 -->
-                <select class="nav-ctrl" id="langSelect" onchange="changeLanguage(this.value)" title="选择语言">
-                    <option value="zh">简体中文</option>
-                    <option value="en">English</option>
-                </select>
-            </div>
-        </nav>
-    </header>
+<div id="toast-container"></div>
 
-    <!-- 主内容 -->
-    <main>
-        <div id="intro" class="tab-content active">
-            <div class="intro-container">
-                <img src="icon.png" alt="XY启动器 图标" class="intro-icon">
-                <div class="intro-text">
-                    <h1 id="mainTitle" data-zh="XY启动器" data-en="XY Launcher">XY启动器</h1>
-                    <p data-zh="XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。" 
-                       data-en="XY Launcher is a lightweight launcher designed specifically for Minecraft Java Edition players. It features a clean interface, supports multi-version management, automatic file downloading, and a smooth launch experience.">XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
-                    <p data-zh="无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。" 
-                       data-en="Whether you are an adventurer who loves vanilla survival or a creator who enjoys modpacks, XY Launcher helps you enter the blocky world quickly and unlock infinite possibilities.">无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。</p>
-                    <p data-zh="我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。" 
-                       data-en="We are committed to providing a pure, stable, and efficient launch service, allowing you to focus more energy on the fun of the game itself.">我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。</p>
-                </div>
-            </div>
-        </div>
+<header>
+<nav>
+<a class="active" onclick="switchTab(event,'intro')" data-zh="介绍" data-en="Intro">介绍</a>
+<a onclick="switchTab(event,'download')" data-zh="下载" data-en="Download">下载</a>
+<a onclick="switchTab(event,'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
+<a onclick="switchTab(event,'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
+<a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
+<div class="nav-controls">
+<select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
+<option value="light" data-zh="白天" data-en="Light">白天</option>
+<option value="dark" data-zh="黑夜" data-en="Dark">黑夜</option>
+</select>
+<select class="nav-ctrl" id="langSelect" onchange="changeLanguage(this.value)" title="选择语言">
+<option value="zh">简体中文</option>
+<option value="en">English</option>
+</select>
+</div>
+</nav>
+</header>
 
-        <div id="download" class="tab-content">
-            <div class="placeholder-page">
-                <h2 data-zh="下载页面" data-en="Download Page">下载页面</h2>
-                <p data-zh="这里后续放下载按钮和版本列表" data-en="Download buttons and version list will be here.">这里后续放下载按钮和版本列表</p>
-            </div>
-        </div>
+<main>
+<div id="intro" class="tab-content active">
+<div class="intro-container">
+<img src="icon.png" alt="XY启动器 图标" class="intro-icon">
+<div class="intro-text">
+<h1 id="mainTitle" data-zh="XY启动器" data-en="XY Launcher">XY启动器</h1>
+<p data-zh="XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。" data-en="XY Launcher is a lightweight launcher designed specifically for Minecraft Java Edition players. It features a clean interface, supports multi-version management, automatic file downloading, and a smooth launch experience.">XY启动器 是一款专为 Minecraft Java 版玩家打造的轻量级启动器。它拥有简洁直观的界面，支持多版本管理、自动下载补全游戏文件，以及流畅的启动体验。</p>
+<p data-zh="无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。" data-en="Whether you are an adventurer who loves vanilla survival or a creator who enjoys modpacks, XY Launcher helps you enter the blocky world quickly and unlock infinite possibilities.">无论你是热爱原版生存的冒险家，还是喜欢折腾模组整合包的创作者，XY启动器 都能帮助你快速进入方块世界，开启属于你的无限可能。</p>
+<p data-zh="我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。" data-en="We are committed to providing a pure, stable, and efficient launch service, allowing you to focus more energy on the fun of the game itself.">我们致力于提供纯净、稳定、高效的启动服务，让你把更多精力放在游戏本身的乐趣上。</p>
+</div>
+</div>
+</div>
 
-        <div id="feedback" class="tab-content">
-            <div class="placeholder-page">
-                <h2 data-zh="问题及反馈" data-en="Feedback">问题及反馈</h2>
-                <p data-zh="这里后续放常见问题和反馈渠道" data-en="FAQ and feedback channels will be here.">这里后续放常见问题和反馈渠道</p>
-            </div>
-        </div>
+<div id="download" class="tab-content">
+<div class="download-page">
+<div class="download-title" data-zh="下载 XY 启动器" data-en="Download XY Launcher">下载 XY 启动器</div>
+<div class="download-subtitle" data-zh="选择你的设备平台" data-en="Choose your platform">选择你的设备平台</div>
+<div class="platform-grid">
 
-        <div id="bugs" class="tab-content">
-            <div class="placeholder-page">
-                <h2 data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</h2>
-                <p data-zh="这里后续展示已修复或正在处理的BUG列表" data-en="List of fixed or in-progress bugs.">这里后续展示已修复或正在处理的BUG列表</p>
-            </div>
-        </div>
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#3ddc84"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.46 11.46 0 0 0-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+</div>
+<div class="platform-name">Android</div>
+<div class="platform-desc" data-zh="适用于安卓手机与平板" data-en="For Android phones and tablets">适用于安卓手机与平板</div>
+<button class="platform-btn available" onclick="downloadPlatform('android')" data-zh="立即下载" data-en="Download">立即下载</button>
+</div>
 
-        <div id="support" class="tab-content">
-            <div class="placeholder-page">
-                <h2 data-zh="支持我们" data-en="Support Us">支持我们</h2>
-                <p data-zh="这里后续放赞助方式和感谢名单" data-en="Sponsorship methods and acknowledgments.">这里后续放赞助方式和感谢名单</p>
-            </div>
-        </div>
-    </main>
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#555"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+</div>
+<div class="platform-name">iOS</div>
+<div class="platform-desc" data-zh="适用于 iPhone 与 iPad" data-en="For iPhone and iPad">适用于 iPhone 与 iPad</div>
+<button class="platform-btn developing" onclick="downloadPlatform('ios')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
 
-    <script>
-        // 切换标签
-        function switchTab(event, tabId) {
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#00a4ef"><path d="M3 5.5L10.5 4.35V11.4H3V5.5zM11.6 4.18L21 2.85V11.4H11.6V4.18zM3 12.6H10.5V19.65L3 18.5V12.6zM11.6 12.6H21V21.15L11.6 19.82V12.6z"/></svg>
+</div>
+<div class="platform-name">Windows</div>
+<div class="platform-desc" data-zh="适用于 Windows 电脑" data-en="For Windows PC">适用于 Windows 电脑</div>
+<button class="platform-btn developing" onclick="downloadPlatform('windows')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#333"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+</div>
+<div class="platform-name">macOS</div>
+<div class="platform-desc" data-zh="适用于苹果电脑" data-en="For Apple Mac">适用于苹果电脑</div>
+<button class="platform-btn developing" onclick="downloadPlatform('macos')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#f7a800"><path d="M12 2C9.5 2 8 4 8 6c0 2.5 1.5 4 4 4s4-1.5 4-4c0-2-1.5-4-4-4zM5 22c1-3 3-5 7-5s6 2 7 5H5z"/></svg>
+</div>
+<div class="platform-name">Linux</div>
+<div class="platform-desc" data-zh="适用于 Linux 系统" data-en="For Linux systems">适用于 Linux 系统</div>
+<button class="platform-btn developing" onclick="downloadPlatform('linux')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<div id="feedback" class="tab-content">
+<div class="placeholder-page">
+<h2 data-zh="问题及反馈" data-en="Feedback">问题及反馈</h2>
+<p data-zh="这里后续放常见问题和反馈渠道" data-en="FAQ and feedback channels will be here.">这里后续放常见问题和反馈渠道</p>
+</div>
+</div>
+
+<div id="bugs" class="tab-content">
+<div class="placeholder-page">
+<h2 data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</h2>
+<p data-zh="这里后续展示已修复或正在处理的BUG列表" data-en="List of fixed or in-progress bugs.">这里后续展示已修复或正在处理的BUG列表</p>
+</div>
+</div>
+
+<div id="support" class="tab-content">
+<div class="placeholder-page">
+<h2 data-zh="支持我们" data-en="Support Us">支持我们</h2>
+<p data-zh="这里后续放赞助方式和感谢名单" data-en="Sponsorship methods and acknowledgments.">这里后续放赞助方式和感谢名单</p>
+</div>
+</div>
+</main>
+
+<script>
+let currentLang = 'zh';
+
+const ANDROID_DOWNLOAD_URL = 'YOUR_APK_URL_HERE';
+
+function switchTab(event, tabId) {
+    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+}
+
+function changeTheme(theme) {
+    if (theme === 'dark') document.body.classList.add('dark-mode');
+    else document.body.classList.remove('dark-mode');
+}
+
+function changeLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-zh]').forEach(el => {
+        if (lang === 'zh') el.textContent = el.getAttribute('data-zh');
+        else el.textContent = el.getAttribute('data-en');
+    });
+}
+
+function playSound(fileName) {
+    try {
+        const audio = new Audio('sounds/' + fileName);
+        audio.play().catch(() => {});
+    } catch(e) {}
+}
+
+function showToast(message, type) {
+    const container = document.getElementById('toast-container');
+    if (container.children.length >= 3) {
+        const oldest = container.firstElementChild;
+        if (oldest) oldest.remove();
+    }
+    const toast = document.createElement('div');
+    toast.className = 'site-toast ' + (type || 'warning');
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+function downloadPlatform(platform) {
+    if (platform === 'android') {
+        if (ANDROID_DOWNLOAD_URL === 'YOUR_APK_URL_HERE') {
+            playSound('error.mp4');
+            showToast(currentLang === 'zh' ? 'APK 还没上传，敬请期待' : 'APK not uploaded yet', 'warning');
+            return;
         }
-
-        // 主题切换（白天/黑夜）
-        function changeTheme(theme) {
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-        }
-
-        // 语言切换
-        function changeLanguage(lang) {
-            const elements = document.querySelectorAll('[data-zh]');
-            
-            // 遍历所有带有 data-zh 和 data-en 属性的元素
-            elements.forEach(el => {
-                if (lang === 'zh') {
-                    el.textContent = el.getAttribute('data-zh');
-                } else {
-                    el.textContent = el.getAttribute('data-en');
-                }
-            });
-        }
-    </script>
+        playSound('click.mp4');
+        window.open(ANDROID_DOWNLOAD_URL, '_blank');
+        return;
+    }
+    playSound('error.mp4');
+    const names = { ios: 'iOS', windows: 'Windows', macos: 'macOS', linux: 'Linux' };
+    const name = names[platform] || platform;
+    const msg = currentLang === 'zh'
+        ? name + ' 版本正在研发中，敬请期待'
+        : name + ' version is under development';
+    showToast(msg, 'warning');
+}
+</script>
 </body>
 </html>
