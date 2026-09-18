@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Microsoft YaHei',sans-serif;}
 body{background-color:#ffffff;color:#333333;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 5s ease,color 5s ease;}
 body.dark-mode{background-color:#121212;color:#eeeeee;}
-header{background-color:#ffffff;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;transition:background-color 5s ease,box-shadow 5s ease;}
+header{background-color:#ffffff;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;transition:background-color 5s ease,box-shadow 5s ease;flex-shrink:0;}
 body.dark-mode header{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(255,255,255,0.05);}
 nav{max-width:1200px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:50px;padding:15px 20px;position:relative;}
 nav a,.nav-ctrl{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-bottom:5px;border-bottom:3px solid transparent;transition:color 0.3s ease,border-color 0.3s ease;cursor:pointer;white-space:nowrap;background:transparent;border:none;outline:none;}
@@ -19,7 +19,7 @@ nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
 select.nav-ctrl{appearance:none;-webkit-appearance:none;padding:4px 25px 4px 8px;border:1px solid #cccccc;border-radius:4px;cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-size:14px;}
 body.dark-mode select.nav-ctrl{border-color:#555555;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");}
 select.nav-ctrl option{color:#333;background-color:#fff;}
-main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px 20px 130px 20px;overflow-y:auto;}
+main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
 .tab-content{display:none;width:100%;}
 .tab-content.active{display:block;}
 .intro-container{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:50px;max-width:1200px;width:100%;margin:0 auto;}
@@ -33,26 +33,33 @@ body.dark-mode .intro-text p{color:#cccccc;}
 .placeholder-page{text-align:center;width:100%;color:#999;font-size:20px;transition:color 5s ease;}
 body.dark-mode .placeholder-page{color:#666;}
 
-.download-page{max-width:1100px;margin:0 auto;width:100%;padding:20px 0;}
-.download-title{text-align:center;font-size:28px;color:#222;margin-bottom:10px;font-weight:bold;transition:color 5s ease;}
+.download-page{max-width:1300px;margin:0 auto;width:100%;padding:10px 0;}
+.download-title{text-align:center;font-size:26px;color:#222;margin-bottom:8px;font-weight:bold;transition:color 5s ease;}
 body.dark-mode .download-title{color:#fff;}
-.download-subtitle{text-align:center;font-size:14px;color:#888;margin-bottom:40px;transition:color 5s ease;}
+.download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color 5s ease;}
 body.dark-mode .download-subtitle{color:#aaa;}
-.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
-.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:14px;padding:25px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .3s ease,background-color 5s ease,border-color 5s ease;}
+.platform-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:all .3s ease,background-color 5s ease,border-color 5s ease;}
 body.dark-mode .platform-card{background:#1e1e1e;border-color:#333;}
 .platform-card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(43,155,255,0.12);border-color:#2b9bff;}
-.platform-icon{width:56px;height:56px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;}
+.platform-icon{width:44px;height:44px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;}
 .platform-icon svg{width:100%;height:100%;}
-.platform-name{font-size:18px;font-weight:bold;color:#222;margin-bottom:6px;transition:color 5s ease;}
+.platform-name{font-size:15px;font-weight:bold;color:#222;margin-bottom:4px;transition:color 5s ease;}
 body.dark-mode .platform-name{color:#fff;}
-.platform-desc{font-size:12px;color:#888;margin-bottom:18px;min-height:32px;line-height:1.5;transition:color 5s ease;}
+.platform-desc{font-size:11px;color:#888;margin-bottom:12px;min-height:28px;line-height:1.4;transition:color 5s ease;}
 body.dark-mode .platform-desc{color:#aaa;}
-.platform-btn{width:100%;padding:10px 20px;border-radius:8px;border:none;font-size:14px;font-weight:bold;cursor:pointer;transition:opacity .25s,background-color .3s;}
+.platform-btn{width:100%;padding:8px 0;border-radius:6px;border:none;font-size:12px;font-weight:bold;cursor:pointer;transition:opacity .25s,background-color .3s;}
 .platform-btn.available{background:#2b9bff;color:#fff;}
 .platform-btn.available:hover{opacity:.85;}
-.platform-btn.developing{background:#e0e6ed;color:#8895a6;cursor:not-allowed;}
+.platform-btn.developing{background:#e0e6ed;color:#8895a6;cursor:pointer;}
 body.dark-mode .platform-btn.developing{background:#333;color:#777;}
+
+.bugs-empty{text-align:center;padding:60px 20px;color:#999;transition:color 5s ease;}
+body.dark-mode .bugs-empty{color:#666;}
+.bugs-empty svg{width:64px;height:64px;margin-bottom:20px;opacity:.4;}
+.bugs-empty h2{font-size:22px;color:#666;margin-bottom:10px;transition:color 5s ease;}
+body.dark-mode .bugs-empty h2{color:#aaa;}
+.bugs-empty p{font-size:14px;transition:color 5s ease;}
 
 #toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none;}
 .site-toast{color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.15);font-size:14px;font-weight:500;margin-bottom:10px;max-width:320px;animation:siteToastIn .3s ease forwards;white-space:normal;line-height:1.5;}
@@ -63,14 +70,17 @@ body.dark-mode .platform-btn.developing{background:#333;color:#777;}
 .site-toast.hide{animation:siteToastOut .3s ease forwards;}
 @keyframes siteToastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
 
+@media (max-width:1100px){
+.platform-grid{grid-template-columns:repeat(3,1fr);}
+}
 @media (max-width:768px){
 .intro-container{flex-direction:column;text-align:center;gap:30px;}
 .intro-icon{width:160px;height:160px;}
 nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
 nav a,.nav-ctrl{font-size:14px;}
 .nav-controls{top:10px;right:15px;gap:15px;}
-main{padding:20px 15px 130px 15px;}
-.platform-grid{grid-template-columns:1fr;}
+main{padding:15px;}
+.platform-grid{grid-template-columns:repeat(2,1fr);}
 #toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
 .site-toast{max-width:100%;}
 }
@@ -86,7 +96,7 @@ main{padding:20px 15px 130px 15px;}
 <a onclick="switchTab(event,'download')" data-zh="下载" data-en="Download">下载</a>
 <a onclick="switchTab(event,'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
 <a onclick="switchTab(event,'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
-<a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
+<a onclick="goSupport()" data-zh="支持我们" data-en="Support Us">支持我们</a>
 <div class="nav-controls">
 <select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
 <option value="light" data-zh="白天" data-en="Light">白天</option>
@@ -176,16 +186,10 @@ main{padding:20px 15px 130px 15px;}
 </div>
 
 <div id="bugs" class="tab-content">
-<div class="placeholder-page">
-<h2 data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</h2>
-<p data-zh="这里后续展示已修复或正在处理的BUG列表" data-en="List of fixed or in-progress bugs.">这里后续展示已修复或正在处理的BUG列表</p>
-</div>
-</div>
-
-<div id="support" class="tab-content">
-<div class="placeholder-page">
-<h2 data-zh="支持我们" data-en="Support Us">支持我们</h2>
-<p data-zh="这里后续放赞助方式和感谢名单" data-en="Sponsorship methods and acknowledgments.">这里后续放赞助方式和感谢名单</p>
+<div class="bugs-empty">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+<h2 data-zh="暂无 bug 登记" data-en="No bugs reported">暂无 bug 登记</h2>
+<p data-zh="感谢大家的支持，目前一切运行正常" data-en="Thanks for your support, everything runs smoothly">感谢大家的支持，目前一切运行正常</p>
 </div>
 </div>
 </main>
@@ -194,12 +198,20 @@ main{padding:20px 15px 130px 15px;}
 let currentLang = 'zh';
 
 const ANDROID_DOWNLOAD_URL = 'YOUR_APK_URL_HERE';
+const AFDIAN_URL = 'https://afdian.com/a/xylauncher';
 
 function switchTab(event, tabId) {
     document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
     event.currentTarget.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
+}
+
+function goSupport() {
+    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+    const supportLink = document.querySelectorAll('nav a')[4];
+    if (supportLink) supportLink.classList.add('active');
+    window.open(AFDIAN_URL, '_blank');
 }
 
 function changeTheme(theme) {
@@ -242,7 +254,7 @@ function downloadPlatform(platform) {
     if (platform === 'android') {
         if (ANDROID_DOWNLOAD_URL === 'YOUR_APK_URL_HERE') {
             playSound('error.mp4');
-            showToast(currentLang === 'zh' ? 'APK 还没上传，敬请期待' : 'APK not uploaded yet', 'warning');
+            showToast(currentLang === 'zh' ? 'APK 还在打包中，敬请期待' : 'APK is still being packaged', 'warning');
             return;
         }
         playSound('click.mp4');
