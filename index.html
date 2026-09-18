@@ -15,29 +15,24 @@ nav a{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-
 body.dark-mode nav a{color:#aaaaaa;}
 nav a:hover{color:#2b9bff;}
 nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
-.nav-controls{position:absolute;right:20px;display:flex;gap:20px;align-items:center;}
+.nav-controls{position:absolute;right:20px;display:flex;gap:12px;align-items:center;}
 
-.theme-toggle{position:relative;width:64px;height:32px;background:#e6ecf2;border-radius:16px;cursor:pointer;transition:background-color .3s;flex-shrink:0;}
-body.dark-mode .theme-toggle{background:#333;}
-.theme-toggle .knob{position:absolute;top:3px;left:3px;width:26px;height:26px;background:#fff;border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,0.15);transition:transform .3s ease,background-color .3s;display:flex;align-items:center;justify-content:center;}
-body.dark-mode .theme-toggle .knob{transform:translateX(32px);background:#2b9bff;}
-.theme-toggle .knob svg{width:16px;height:16px;}
-.theme-toggle .icon-sun{position:absolute;transition:opacity .3s;}
-.theme-toggle .icon-moon{position:absolute;opacity:0;transition:opacity .3s;}
-body.dark-mode .theme-toggle .icon-sun{opacity:0;}
-body.dark-mode .theme-toggle .icon-moon{opacity:1;}
-
-.lang-toggle{position:relative;width:78px;height:32px;background:#e6ecf2;border-radius:16px;cursor:pointer;transition:background-color .3s;flex-shrink:0;}
-body.dark-mode .lang-toggle{background:#333;}
-.lang-toggle .knob{position:absolute;top:3px;left:3px;width:36px;height:26px;background:#2b9bff;border-radius:13px;box-shadow:0 2px 5px rgba(0,0,0,0.15);transition:transform .3s ease;}
-.lang-toggle.en .knob{transform:translateX(36px);}
-.lang-toggle .label-left,.lang-toggle .label-right{position:absolute;top:50%;transform:translateY(-50%);font-size:11px;font-weight:bold;transition:color .3s;pointer-events:none;z-index:2;}
-.lang-toggle .label-left{left:11px;color:#fff;}
-.lang-toggle .label-right{right:11px;color:#666;}
-body.dark-mode .lang-toggle .label-right{color:#aaa;}
-.lang-toggle.en .label-left{color:#666;}
-body.dark-mode .lang-toggle.en .label-left{color:#aaa;}
-.lang-toggle.en .label-right{color:#fff;}
+.custom-select{position:relative;min-width:96px;}
+.select-box{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border:1px solid #d0d7de;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#333;transition:border-color .2s,background-color .3s,color .3s;user-select:none;white-space:nowrap;}
+body.dark-mode .select-box{border-color:#444;background:#252525;color:#eee;}
+.select-box:hover{border-color:#2b9bff;}
+.select-box .arrow{width:12px;height:12px;flex-shrink:0;transition:transform .25s;}
+.select-box .arrow svg{width:12px;height:12px;stroke:#888;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;display:block;}
+.select-box.open{border-color:#2b9bff;}
+.select-box.open .arrow{transform:rotate(180deg);}
+.select-dropdown{position:absolute;top:calc(100% + 5px);left:0;right:0;background:#fff;border:1px solid #d0d7de;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,.1);overflow:hidden;display:none;z-index:200;}
+body.dark-mode .select-dropdown{background:#252525;border-color:#444;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.select-dropdown.open{display:block;}
+.select-item{padding:8px 12px;font-size:13px;color:#333;cursor:pointer;transition:background .15s,color .3s;}
+body.dark-mode .select-item{color:#eee;}
+.select-item:hover{background:#f0f6fc;}
+body.dark-mode .select-item:hover{background:#333;}
+.select-item.active{color:#2b9bff;font-weight:bold;}
 
 main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;min-width:0;}
 .tab-content{display:none;width:100%;min-width:0;}
@@ -115,7 +110,8 @@ body.dark-mode .support-note{color:#666;}
 .intro-icon{width:160px;height:160px;}
 nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
 nav a{font-size:14px;}
-.nav-controls{top:10px;right:15px;gap:12px;}
+.nav-controls{top:10px;right:15px;gap:8px;}
+.custom-select{min-width:80px;}
 main{padding:15px;}
 .platform-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
 #toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
@@ -135,17 +131,29 @@ main{padding:15px;}
 <a onclick="switchTab(event,'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
 <a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
 <div class="nav-controls">
-<div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">
-<div class="knob">
-<svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="#555"/><g stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.57" y1="4.57" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.43" y2="19.43"/><line x1="4.57" y1="19.43" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.43" y2="4.57"/></g></svg>
-<svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#fff"/></svg>
+
+<div class="custom-select">
+<div class="select-box" id="themeBox" onclick="toggleDropdown(event,'themeDropdown')">
+<span id="themeLabel">白天</span>
+<span class="arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+</div>
+<div class="select-dropdown" id="themeDropdown">
+<div class="select-item active" id="themeItemLight" onclick="selectTheme('light')">白天</div>
+<div class="select-item" id="themeItemDark" onclick="selectTheme('dark')">黑夜</div>
 </div>
 </div>
-<div class="lang-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">
-<div class="knob"></div>
-<span class="label-left">中</span>
-<span class="label-right">EN</span>
+
+<div class="custom-select">
+<div class="select-box" id="langBox" onclick="toggleDropdown(event,'langDropdown')">
+<span id="langLabel">简体中文</span>
+<span class="arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
 </div>
+<div class="select-dropdown" id="langDropdown">
+<div class="select-item active" id="langItemZh" onclick="selectLang('zh')">简体中文</div>
+<div class="select-item" id="langItemEn" onclick="selectLang('en')">English</div>
+</div>
+</div>
+
 </div>
 </nav>
 </header>
@@ -250,6 +258,19 @@ let isDark = false;
 const ANDROID_DOWNLOAD_URL = 'YOUR_APK_URL_HERE';
 const AFDIAN_URL = 'https://afdian.com/a/xylauncher';
 
+const soundCache = {};
+function preloadSounds() {
+    ['click.mp4', 'error.mp4'].forEach(function(name) {
+        const a = new Audio();
+        a.src = name;
+        a.preload = 'auto';
+        a.volume = 0.7;
+        try { a.load(); } catch(e) {}
+        soundCache[name] = a;
+    });
+}
+preloadSounds();
+
 function switchTab(event, tabId) {
     document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
     event.currentTarget.classList.add('active');
@@ -265,26 +286,42 @@ function switchTab(event, tabId) {
     }
 }
 
-function goSupport() {
-    window.open(AFDIAN_URL, '_blank');
-}
-
-function toggleTheme() {
-    isDark = !isDark;
-    if (isDark) document.body.classList.add('dark-mode');
-    else document.body.classList.remove('dark-mode');
-}
-
-function toggleLang() {
-    const toggle = document.getElementById('langToggle');
-    if (currentLang === 'zh') {
-        currentLang = 'en';
-        toggle.classList.add('en');
-    } else {
-        currentLang = 'zh';
-        toggle.classList.remove('en');
+function toggleDropdown(event, id) {
+    event.stopPropagation();
+    const dd = document.getElementById(id);
+    const isOpen = dd.classList.contains('open');
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+    if (!isOpen) {
+        dd.classList.add('open');
+        dd.previousElementSibling.classList.add('open');
     }
-    changeLanguage(currentLang);
+}
+
+document.addEventListener('click', function() {
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+});
+
+function selectTheme(theme) {
+    isDark = theme === 'dark';
+    document.body.classList.toggle('dark-mode', isDark);
+    const label = document.getElementById('themeLabel');
+    label.textContent = isDark ? '黑夜' : '白天';
+    document.getElementById('themeItemLight').classList.toggle('active', !isDark);
+    document.getElementById('themeItemDark').classList.toggle('active', isDark);
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+}
+
+function selectLang(lang) {
+    currentLang = lang;
+    document.getElementById('langLabel').textContent = lang === 'zh' ? '简体中文' : 'English';
+    document.getElementById('langItemZh').classList.toggle('active', lang === 'zh');
+    document.getElementById('langItemEn').classList.toggle('active', lang === 'en');
+    changeLanguage(lang);
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
 }
 
 function changeLanguage(lang) {
@@ -294,12 +331,19 @@ function changeLanguage(lang) {
     });
 }
 
+function goSupport() {
+    window.open(AFDIAN_URL, '_blank');
+}
+
 function playSound(fileName) {
-    try {
-        const audio = new Audio(fileName);
-        audio.volume = 0.7;
-        audio.play().catch(function(err) {});
-    } catch(e) {}
+    const audio = soundCache[fileName];
+    if (audio) {
+        try {
+            audio.currentTime = 0;
+            const p = audio.play();
+            if (p && p.catch) p.catch(function(){});
+        } catch(e) {}
+    }
 }
 
 function showToast(message, type) {
