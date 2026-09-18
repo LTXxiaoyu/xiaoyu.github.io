@@ -33,7 +33,7 @@ body.dark-mode .intro-text p{color:#cccccc;}
 .placeholder-page{text-align:center;width:100%;color:#999;font-size:20px;transition:color 5s ease;}
 body.dark-mode .placeholder-page{color:#666;}
 
-.download-page{max-width:1300px;margin:0 auto;width:100%;padding:10px 0;}
+.download-page{max-width:1300px;margin:0 auto 150px;width:100%;padding:10px 0;}
 .download-title{text-align:center;font-size:26px;color:#222;margin-bottom:8px;font-weight:bold;transition:color 5s ease;}
 body.dark-mode .download-title{color:#fff;}
 .download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color 5s ease;}
@@ -60,6 +60,18 @@ body.dark-mode .bugs-empty{color:#666;}
 .bugs-empty h2{font-size:22px;color:#666;margin-bottom:10px;transition:color 5s ease;}
 body.dark-mode .bugs-empty h2{color:#aaa;}
 .bugs-empty p{font-size:14px;transition:color 5s ease;}
+
+.support-hero{text-align:center;padding:40px 20px;max-width:600px;margin:0 auto;}
+.support-hero svg{width:80px;height:80px;stroke:#2b9bff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:20px;}
+.support-hero h2{font-size:26px;color:#222;margin-bottom:12px;transition:color 5s ease;}
+body.dark-mode .support-hero h2{color:#fff;}
+.support-hero p{font-size:14px;color:#777;line-height:1.7;margin-bottom:28px;transition:color 5s ease;}
+body.dark-mode .support-hero p{color:#aaa;}
+.support-btn{background:#2b9bff;color:#fff;border:none;border-radius:30px;padding:14px 40px;font-size:15px;font-weight:bold;cursor:pointer;box-shadow:0 6px 18px rgba(43,155,255,0.35);transition:opacity .25s,transform .15s;}
+.support-btn:hover{opacity:.9;}
+.support-btn:active{transform:scale(.97);}
+.support-note{font-size:12px;color:#aaa;margin-top:18px;transition:color 5s ease;}
+body.dark-mode .support-note{color:#666;}
 
 #toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none;}
 .site-toast{color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.15);font-size:14px;font-weight:500;margin-bottom:10px;max-width:320px;animation:siteToastIn .3s ease forwards;white-space:normal;line-height:1.5;}
@@ -96,7 +108,7 @@ main{padding:15px;}
 <a onclick="switchTab(event,'download')" data-zh="下载" data-en="Download">下载</a>
 <a onclick="switchTab(event,'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
 <a onclick="switchTab(event,'bugs')" data-zh="已登记的BUG" data-en="Known Bugs">已登记的BUG</a>
-<a onclick="goSupport()" data-zh="支持我们" data-en="Support Us">支持我们</a>
+<a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
 <div class="nav-controls">
 <select class="nav-ctrl" id="themeSelect" onchange="changeTheme(this.value)" title="选择主题">
 <option value="light" data-zh="白天" data-en="Light">白天</option>
@@ -192,6 +204,16 @@ main{padding:15px;}
 <p data-zh="感谢大家的支持，目前一切运行正常" data-en="Thanks for your support, everything runs smoothly">感谢大家的支持，目前一切运行正常</p>
 </div>
 </div>
+
+<div id="support" class="tab-content">
+<div class="support-hero">
+<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+<h2 data-zh="支持 XY 启动器" data-en="Support XY Launcher">支持 XY 启动器</h2>
+<p data-zh="每一份支持都会用于服务器维护和后续开发，感谢有你" data-en="Every contribution goes to server costs and development. Thank you.">每一份支持都会用于服务器维护和后续开发，感谢有你</p>
+<button class="support-btn" onclick="goSupport()" data-zh="前往爱发电" data-en="Go to Afdian">前往爱发电</button>
+<div class="support-note" data-zh="支持微信 / 支付宝" data-en="WeChat / Alipay supported">支持微信 / 支付宝</div>
+</div>
+</div>
 </main>
 
 <script>
@@ -208,9 +230,6 @@ function switchTab(event, tabId) {
 }
 
 function goSupport() {
-    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-    const supportLink = document.querySelectorAll('nav a')[4];
-    if (supportLink) supportLink.classList.add('active');
     window.open(AFDIAN_URL, '_blank');
 }
 
