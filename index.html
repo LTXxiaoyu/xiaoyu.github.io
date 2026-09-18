@@ -21,7 +21,7 @@ nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
 body.dark-mode .theme-toggle{background:#333;}
 .theme-toggle .knob{position:absolute;top:3px;left:3px;width:26px;height:26px;background:#fff;border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,0.15);transition:transform .3s ease,background-color .3s;display:flex;align-items:center;justify-content:center;}
 body.dark-mode .theme-toggle .knob{transform:translateX(32px);background:#2b9bff;}
-.theme-toggle .knob svg{width:16px;height:16px;transition:stroke .3s,fill .3s;}
+.theme-toggle .knob svg{width:16px;height:16px;}
 .theme-toggle .icon-sun{position:absolute;transition:opacity .3s;}
 .theme-toggle .icon-moon{position:absolute;opacity:0;transition:opacity .3s;}
 body.dark-mode .theme-toggle .icon-sun{opacity:0;}
@@ -39,8 +39,8 @@ body.dark-mode .lang-toggle .label-right{color:#aaa;}
 body.dark-mode .lang-toggle.en .label-left{color:#aaa;}
 .lang-toggle.en .label-right{color:#fff;}
 
-main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
-.tab-content{display:none;width:100%;}
+main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;min-width:0;}
+.tab-content{display:none;width:100%;min-width:0;}
 .tab-content.active{display:block;}
 .intro-container{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:50px;max-width:1200px;width:100%;margin:0 auto 150px;}
 .intro-icon{width:200px;height:200px;clip-path:polygon(29.3% 0%,70.7% 0%,100% 29.3%,100% 70.7%,70.7% 100%,29.3% 100%,0% 70.7%,0% 29.3%);filter:drop-shadow(0 10px 20px rgba(43,155,255,0.3));object-fit:cover;flex-shrink:0;background-color:#f0f8ff;animation:slideUpFadeIn 1.5s ease-out forwards;}
@@ -58,7 +58,7 @@ body.dark-mode .placeholder-page{color:#666;}
 body.dark-mode .download-title{color:#fff;}
 .download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color 5s ease;opacity:0;}
 body.dark-mode .download-subtitle{color:#aaa;}
-.platform-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;width:100%;}
 .platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s ease,box-shadow .3s ease,background-color 5s ease,border-color 5s ease;opacity:0;}
 body.dark-mode .platform-card{background:#1e1e1e;border-color:#333;}
 .platform-card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(43,155,255,0.12);border-color:#2b9bff;}
@@ -110,9 +110,6 @@ body.dark-mode .support-note{color:#666;}
 .site-toast.hide{animation:siteToastOut .3s ease forwards;}
 @keyframes siteToastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
 
-@media (max-width:1100px){
-.platform-grid{grid-template-columns:repeat(3,1fr);}
-}
 @media (max-width:768px){
 .intro-container{flex-direction:column;text-align:center;gap:30px;}
 .intro-icon{width:160px;height:160px;}
@@ -120,7 +117,7 @@ nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
 nav a{font-size:14px;}
 .nav-controls{top:10px;right:15px;gap:12px;}
 main{padding:15px;}
-.platform-grid{grid-template-columns:repeat(2,1fr);}
+.platform-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
 #toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
 .site-toast{max-width:100%;}
 }
@@ -140,8 +137,8 @@ main{padding:15px;}
 <div class="nav-controls">
 <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">
 <div class="knob">
-<svg class="icon-sun" viewBox="0 0 24 24" stroke="#f5a623" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
-<svg class="icon-moon" viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+<svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="#555"/><g stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.57" y1="4.57" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.43" y2="19.43"/><line x1="4.57" y1="19.43" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.43" y2="4.57"/></g></svg>
+<svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#fff"/></svg>
 </div>
 </div>
 <div class="lang-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">
@@ -176,8 +173,8 @@ main{padding:15px;}
 <div class="platform-icon">
 <svg viewBox="0 0 24 24" fill="#3ddc84"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.46 11.46 0 0 0-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
 </div>
-<div classFor="platform-name">Android</ Androiddiv>
-<div class="platform phones-desc" data-zh and="适用于安卓手机与平板" data-en tablets="">适用于安卓手机与平板</div>
+<div class="platform-name">Android</div>
+<div class="platform-desc" data-zh="适用于安卓手机与平板" data-en="For Android phones and tablets">适用于安卓手机与平板</div>
 <button class="platform-btn available" onclick="downloadPlatform('android')" data-zh="立即下载" data-en="Download">立即下载</button>
 </div>
 
