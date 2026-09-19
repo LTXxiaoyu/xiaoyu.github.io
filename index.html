@@ -15,7 +15,7 @@ nav a{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-
 body.dark-mode nav a{color:#aaaaaa;}
 nav a:hover{color:#2b9bff;}
 nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
-.nav-controls{position:absolute;right:20px;display:flex;gap:12px;align-items:center;}
+.nav-controls{position:absolute;right:20px;display:flex;gap:20px;align-items:center;}
 
 .custom-select{position:relative;min-width:96px;}
 .select-box{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border:1px solid #d0d7de;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#333;transition:border-color .2s,background-color .3s,color .3s;user-select:none;white-space:nowrap;}
@@ -105,17 +105,30 @@ body.dark-mode .support-note{color:#666;}
 .site-toast.hide{animation:siteToastOut .3s ease forwards;}
 @keyframes siteToastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
 
-@media (max-width:768px){
-.intro-container{flex-direction:column;text-align:center;gap:30px;}
-.intro-icon{width:160px;height:160px;}
-nav{gap:15px;flex-wrap:wrap;padding-top:50px;}
-nav a{font-size:14px;}
-.nav-controls{top:10px;right:15px;gap:8px;}
-.custom-select{min-width:80px;}
+@media (max-width:900px){
+nav{flex-wrap:wrap;gap:0;padding:10px 12px;justify-content:center;}
+.nav-controls{position:static;order:-1;width:100%;justify-content:flex-end;margin-bottom:8px;gap:10px;}
+nav a{font-size:13px;padding:6px 8px;margin:0 2px;}
+.custom-select{min-width:82px;}
+.select-box{padding:5px 9px;font-size:12px;}
+.intro-container{flex-direction:column;text-align:center;gap:25px;margin:0 auto 100px;}
+.intro-icon{width:150px;height:150px;}
+.intro-text{min-width:0;width:100%;}
+.intro-text h1{font-size:28px;margin-bottom:14px;}
+.intro-text p{font-size:14px;line-height:1.7;margin-bottom:12px;}
 main{padding:15px;}
-.platform-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+.download-title{font-size:22px;}
+.download-subtitle{font-size:12px;margin-bottom:18px;}
+.platform-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.support-hero{padding:0 10px 100px;}
+.support-hero h2{font-size:22px;}
 #toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
 .site-toast{max-width:100%;}
+}
+@media (max-width:380px){
+nav a{font-size:12px;padding:5px 5px;}
+.custom-select{min-width:72px;}
+.select-box{padding:4px 7px;font-size:11px;}
 }
 </style>
 </head>
@@ -306,8 +319,7 @@ document.addEventListener('click', function() {
 function selectTheme(theme) {
     isDark = theme === 'dark';
     document.body.classList.toggle('dark-mode', isDark);
-    const label = document.getElementById('themeLabel');
-    label.textContent = isDark ? '黑夜' : '白天';
+    document.getElementById('themeLabel').textContent = isDark ? '黑夜' : '白天';
     document.getElementById('themeItemLight').classList.toggle('active', !isDark);
     document.getElementById('themeItemDark').classList.toggle('active', isDark);
     document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
