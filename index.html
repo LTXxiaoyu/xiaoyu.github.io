@@ -270,7 +270,7 @@ nav a{font-size:12px;padding:5px 6px;}
 let currentLang = 'zh';
 let isDark = false;
 
-const ANDROID_DOWNLOAD_URL = 'YOUR_APK_URL_HERE';
+const ANDROID_DOWNLOAD_URL = 'https://gh-proxy.com/https://github.com/LTXxiaoyu/xiaoyu.github.io/releases/download/V1.14.0/XYCL.apk';
 const AFDIAN_URL = 'https://afdian.com/a/xylauncher';
 
 const soundCache = {};
@@ -384,7 +384,12 @@ function downloadPlatform(platform) {
             return;
         }
         playSound('click.mp4');
-        window.open(ANDROID_DOWNLOAD_URL, '_blank');
+        const a = document.createElement('a');
+        a.href = ANDROID_DOWNLOAD_URL;
+        a.download = 'XYLauncher.apk';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
         return;
     }
     playSound('error.mp4');
