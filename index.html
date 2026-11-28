@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XYCL启动器 - 官方下载站</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Microsoft YaHei',sans-serif;}
+body{background-color:#ffffff;color:#333333;min-height:100vh;display:flex;flex-direction:column;transition:background-color .35s ease,color .35s ease;}
+body.dark-mode{background-color:#121212;color:#eeeeee;}
+header{background-color:#ffffff;box-shadow:0 2px 10px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;transition:background-color .35s ease,box-shadow .35s ease;flex-shrink:0;}
+body.dark-mode header{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(255,255,255,0.05);}
+nav{max-width:1200px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:50px;padding:15px 20px;position:relative;}
+nav a{text-decoration:none;color:#666666;font-size:16px;font-weight:500;padding-bottom:5px;border-bottom:3px solid transparent;transition:color 0.3s ease,border-color 0.3s ease;cursor:pointer;white-space:nowrap;}
+body.dark-mode nav a{color:#aaaaaa;}
+nav a:hover{color:#2b9bff;}
+nav a.active{color:#2b9bff;border-bottom:3px solid #2b9bff;}
+.nav-controls{position:absolute;right:20px;display:flex;gap:20px;align-items:center;}
+
+.custom-select{position:relative;min-width:96px;}
+.select-box{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border:1px solid #d0d7de;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#333;transition:border-color .2s,background-color .3s,color .3s;user-select:none;white-space:nowrap;}
+body.dark-mode .select-box{border-color:#444;background:#252525;color:#eee;}
+.select-box:hover{border-color:#2b9bff;}
+.select-box .arrow{width:12px;height:12px;flex-shrink:0;transition:transform .25s;}
+.select-box .arrow svg{width:12px;height:12px;stroke:#888;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;display:block;}
+.select-box.open{border-color:#2b9bff;}
+.select-box.open .arrow{transform:rotate(180deg);}
+.select-dropdown{position:absolute;top:calc(100% + 5px);left:0;right:0;background:#fff;border:1px solid #d0d7de;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,.1);overflow:hidden;display:none;z-index:200;}
+body.dark-mode .select-dropdown{background:#252525;border-color:#444;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.select-dropdown.open{display:block;}
+.select-item{padding:8px 12px;font-size:13px;color:#333;cursor:pointer;transition:background .15s,color .3s;}
+body.dark-mode .select-item{color:#eee;}
+.select-item:hover{background:#f0f6fc;}
+body.dark-mode .select-item:hover{background:#333;}
+.select-item.active{color:#2b9bff;font-weight:bold;}
+
+main{flex:1;display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto;min-width:0;}
+.tab-content{display:none;width:100%;min-width:0;}
+.tab-content.active{display:block;}
+.intro-container{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:50px;max-width:1200px;width:100%;margin:0 auto 150px;}
+.intro-icon{width:200px;height:200px;clip-path:polygon(29.3% 0%,70.7% 0%,100% 29.3%,100% 70.7%,70.7% 100%,29.3% 100%,0% 70.7%,0% 29.3%);filter:drop-shadow(0 10px 20px rgba(43,155,255,0.3));object-fit:cover;flex-shrink:0;background-color:#f0f8ff;animation:slideUpFadeIn 1.5s ease-out forwards;}
+.intro-text{flex:1;min-width:300px;animation:slideUpFadeIn 1.5s ease-out 0.2s forwards;opacity:0;}
+.intro-text h1{font-size:36px;color:#222222;margin-bottom:20px;letter-spacing:1px;transition:color .35s ease;}
+body.dark-mode .intro-text h1{color:#ffffff;}
+.intro-text p{font-size:16px;line-height:1.9;color:#555555;margin-bottom:15px;transition:color .35s ease;}
+body.dark-mode .intro-text p{color:#cccccc;}
+@keyframes slideUpFadeIn{from{opacity:0;transform:translateY(120px);}to{opacity:1;transform:translateY(0);}}
+.placeholder-page{text-align:center;width:100%;color:#999;font-size:20px;transition:color .35s ease;}
+body.dark-mode .placeholder-page{color:#666;}
+
+.download-page{max-width:1300px;margin:0 auto 150px;width:100%;padding:10px 0;}
+.download-title{text-align:center;font-size:26px;color:#222;margin-bottom:8px;font-weight:bold;transition:color .35s ease;opacity:0;}
+body.dark-mode .download-title{color:#fff;}
+.download-subtitle{text-align:center;font-size:13px;color:#888;margin-bottom:24px;transition:color .35s ease;opacity:0;}
+body.dark-mode .download-subtitle{color:#aaa;}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;width:100%;}
+.platform-card{background:#f9fbfd;border:1px solid #e6eef7;border-radius:12px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s ease,box-shadow .3s ease,background-color .35s ease,border-color .35s ease;opacity:0;}
+body.dark-mode .platform-card{background:#1e1e1e;border-color:#333;}
+.platform-card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(43,155,255,0.12);border-color:#2b9bff;}
+.platform-icon{width:44px;height:44px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;}
+.platform-icon svg{width:100%;height:100%;}
+.platform-name{font-size:15px;font-weight:bold;color:#222;margin-bottom:4px;transition:color .35s ease;}
+body.dark-mode .platform-name{color:#fff;}
+.platform-desc{font-size:11px;color:#888;margin-bottom:12px;min-height:28px;line-height:1.4;transition:color .35s ease;}
+body.dark-mode .platform-desc{color:#aaa;}
+.platform-btn{width:100%;padding:8px 0;border-radius:6px;border:none;font-size:12px;font-weight:bold;cursor:pointer;transition:opacity .25s,background-color .3s;}
+.platform-btn.available{background:#2b9bff;color:#fff;}
+.platform-btn.available:hover{opacity:.85;}
+.platform-btn.developing{background:#e0e6ed;color:#8895a6;cursor:pointer;}
+body.dark-mode .platform-btn.developing{background:#333;color:#777;}
+
+#download.active .download-title{animation:slideUpFadeIn 0.8s ease-out 0s forwards;}
+#download.active .download-subtitle{animation:slideUpFadeIn 0.8s ease-out 0.15s forwards;}
+#download.active .platform-card{animation:slideUpFadeIn 0.9s ease-out forwards;}
+#download.active .platform-card:nth-child(1){animation-delay:0.30s;}
+#download.active .platform-card:nth-child(2){animation-delay:0.40s;}
+#download.active .platform-card:nth-child(3){animation-delay:0.50s;}
+#download.active .platform-card:nth-child(4){animation-delay:0.60s;}
+#download.active .platform-card:nth-child(5){animation-delay:0.70s;}
+
+/* 弹框：和启动器里一致（白底圆角、右上角叉、右下角确定、点空白关闭） */
+.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;}
+.modal-mask.open{display:flex;}
+.modal-box{position:relative;width:100%;max-width:420px;background:#fff;border-radius:16px;padding:22px 20px 16px;box-shadow:0 18px 50px rgba(0,0,0,.25);animation:modalIn .18s ease-out;max-height:86vh;overflow:visible;}
+body.dark-mode .modal-box{background:#1f1f1f;color:#eee;}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:none;}}
+.modal-x{position:absolute;top:10px;right:10px;width:30px;height:30px;border:none;background:transparent;color:#94a3b8;font-size:22px;line-height:1;cursor:pointer;border-radius:8px;transition:background .2s;}
+.modal-x:hover{background:rgba(148,163,184,.18);}
+.modal-title{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:6px;padding-right:28px;transition:color .35s ease;}
+body.dark-mode .modal-title{color:#fff;}
+.modal-sub{font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:14px;transition:color .35s ease;}
+body.dark-mode .modal-sub{color:#a3a3a3;}
+.modal-note{font-size:12px;color:#94a3b8;line-height:1.6;margin-top:10px;}
+.modal-foot{display:flex;justify-content:flex-end;margin-top:18px;}
+.btn-primary{background:#2b9bff;color:#fff;border:none;border-radius:9px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s,transform .12s;}
+.btn-primary:hover{opacity:.9;}
+.btn-primary:active{transform:scale(.97);}
+.modal-select{margin:2px 0 4px;min-width:0;}
+.modal-select .select-dropdown{position:static;margin-top:6px;box-shadow:none;border-radius:9px;border-color:#e2e8f0;}
+body.dark-mode .modal-select .select-dropdown{border-color:#3a3a3a;}
+.modal-box.center{text-align:center;}
+.modal-box.center .modal-title{padding-right:0;font-size:18px;}
+.modal-box.center .modal-foot{justify-content:center;}
+.warn-icon{width:46px;height:46px;border-radius:50%;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:2px auto 12px;}
+body.dark-mode .warn-icon{background:rgba(245,158,11,.16);color:#fbbf24;}
+body.modal-open{overflow:hidden;}
+
+/* 支持我们：与启动器 view-support 一致（居中文字 + 下划线链接） */
+.support-wrap{max-width:560px;margin:0 auto 140px;padding:40px 20px 20px;display:flex;flex-direction:column;align-items:center;}
+.support-title{font-size:24px;font-weight:bold;color:#333;margin-bottom:10px;transition:color .35s ease;}
+body.dark-mode .support-title{color:#f7fafc;}
+.support-plain{font-size:14px;line-height:1.8;color:#718096;max-width:560px;margin:26px auto 0;text-align:center;transition:color .35s ease;}
+body.dark-mode .support-plain{color:#a0aec0;}
+.support-link{display:block;margin:18px auto 0;text-align:center;font-size:15px;font-weight:600;color:#63b3ed;cursor:pointer;text-decoration:underline;text-underline-offset:4px;}
+.support-link:active{opacity:.6;}
+.support-foot{font-size:12px;color:#718096;margin-top:26px;text-align:center;transition:color .35s ease;}
+body.dark-mode .support-foot{color:#a0aec0;}
+/* 18 岁确认弹框（照搬启动器 supportGate） */
+.modal-box.gate{max-width:min(94vw,620px);width:100%;max-height:92vh;overflow-y:auto;}
+.gate-warn{color:#e53e3e;font-size:14px;font-weight:600;text-align:left;margin:10px 0;}
+.sg-row{font-size:13px;line-height:1.7;color:#333;text-align:left;margin-bottom:6px;transition:color .35s ease;}
+body.dark-mode .sg-row{color:#f7fafc;}
+.gate-terms{font-size:12.5px;line-height:1.85;color:#718096;max-height:38vh;overflow-y:auto;text-align:left;padding-right:6px;transition:color .35s ease;}
+body.dark-mode .gate-terms{color:#a0aec0;}
+.gate-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;}
+.btn-ghost{min-width:104px;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:600;letter-spacing:.08em;border:1px solid #e2e8f0;background:transparent;color:#718096;cursor:pointer;transition:background .2s;}
+body.dark-mode .btn-ghost{border-color:#4a5568;color:#a0aec0;}
+.btn-ghost:active{opacity:.7;}
+.btn-confirm{min-width:104px;padding:9px 24px;border-radius:8px;font-size:13px;font-weight:600;letter-spacing:.08em;color:#fff;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#2563eb);box-shadow:0 4px 14px rgba(37,99,235,.32);transition:transform .15s ease,box-shadow .15s ease;}
+.btn-confirm:active{transform:translateY(1px);box-shadow:0 2px 8px rgba(37,99,235,.3);}
+
+/* 问题及反馈 */
+.feedback-wrap{max-width:820px;margin:0 auto 140px;padding:0 4px;}
+.feedback-title{text-align:center;font-size:24px;font-weight:bold;color:#222;margin-bottom:8px;transition:color .35s ease;}
+body.dark-mode .feedback-title{color:#fff;}
+.feedback-desc{text-align:center;font-size:13px;color:#8794a3;margin-bottom:22px;transition:color .35s ease;}
+body.dark-mode .feedback-desc{color:#a6a6a6;}
+.channel-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;max-width:860px;margin:0 auto;}
+.channel-cell{display:flex;flex-direction:row;align-items:baseline;justify-content:flex-start;gap:0 2px;padding:12px 6px;border-radius:12px;cursor:pointer;text-align:center;white-space:nowrap;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:background .2s ease,transform .15s ease;}
+.channel-cell:hover{background:rgba(99,179,237,.14);}
+.channel-cell:active{transform:scale(.98);}
+.ch-label{width:6.4em;text-align:right;flex:0 0 auto;font-size:12.5px;color:#8794a3;letter-spacing:.3px;transition:color .35s ease;}
+body.dark-mode .ch-label{color:#9aa7b5;}
+.ch-id{font-size:15px;font-weight:600;color:#333;font-family:'Consolas','Menlo',monospace;letter-spacing:.2px;line-height:1.25;white-space:nowrap;font-variant-numeric:tabular-nums;transition:color .35s ease;}
+body.dark-mode .ch-id{color:#f0f0f0;}
+.channel-cell.pending{cursor:default;opacity:.45;}
+.channel-cell.pending:hover{background:transparent;}
+/* 竖屏手机：提示旋转成横屏（横屏即为平板布局） */
+
+.feedback-tip{font-size:12px;color:#a8b3bf;text-align:center;margin-top:18px;line-height:1.7;transition:color .35s ease;}
+body.dark-mode .feedback-tip{color:#6b6b6b;}
+
+#toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none;}
+.site-toast{color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.15);font-size:14px;font-weight:500;margin-bottom:10px;max-width:320px;animation:siteToastIn .3s ease forwards;white-space:normal;line-height:1.5;}
+.site-toast.warning{background:#f59e0b;}
+.site-toast.complete{background:#10b981;}
+.site-toast.error{background:#ef4444;}
+@keyframes siteToastIn{from{transform:translateX(120%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.site-toast.hide{animation:siteToastOut .3s ease forwards;}
+@keyframes siteToastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
+
+/* 平板 / 手机横屏：压间距，保留横向多列 */
+@media (max-width:900px){
+main{align-items:flex-start;padding:12px;}
+nav{flex-wrap:wrap;justify-content:center;gap:2px 4px;padding:6px 10px 8px;}
+nav a{font-size:13px;padding:6px 8px;flex-shrink:0;}
+.nav-controls{position:static;order:-1;flex:1 0 100%;justify-content:flex-end;margin:0 0 2px;gap:8px;}
+.custom-select{min-width:78px;}
+.select-box{padding:5px 9px;font-size:12px;}
+.intro-container{gap:22px;padding:16px 0 30px;}
+.intro-icon{width:150px;height:150px;}
+.intro-text{min-width:0;}
+.intro-text h1{font-size:28px;margin-bottom:10px;}
+.intro-text p{font-size:14px;line-height:1.75;margin-bottom:10px;}
+.download-page{margin:0 auto;padding:10px 0 30px;}
+.download-title{font-size:22px;}
+.download-subtitle{font-size:12px;margin-bottom:18px;}
+.platform-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.support-wrap,.feedback-wrap{margin:0 auto 60px;}
+.support-wrap{padding:24px 12px 16px;}
+.support-plain{font-size:13px;}
+.feedback-title{font-size:20px;}
+.channel-list{gap:6px;}
+.channel-cell{padding:10px 4px;}
+.ch-label{font-size:11px;width:6.4em;}
+.ch-id{font-size:13px;}
+#toast-container{top:70px;right:10px;left:10px;align-items:stretch;}
+.site-toast{max-width:100%;}
+.modal-box{max-width:100%;padding:20px 16px 14px;}
+}
+/* 手机竖屏：单列化，字号与间距同步收一档 */
+@media (max-width:560px){
+main{padding:10px;}
+nav{padding:6px 6px 8px;gap:2px 2px;}
+nav a{font-size:13px;padding:6px 9px;}
+.nav-controls{gap:6px;margin-bottom:4px;}
+.intro-container{flex-direction:column;text-align:center;gap:16px;padding:14px 4px 26px;}
+.intro-icon{width:112px;height:112px;}
+.intro-text h1{font-size:23px;margin-bottom:10px;}
+.intro-text p{font-size:13.5px;line-height:1.8;margin-bottom:9px;text-align:left;padding:0 4px;}
+.download-title{font-size:21px;}
+.download-subtitle{margin-bottom:16px;}
+.platform-grid{grid-template-columns:1fr;gap:10px;}
+.platform-card{padding:18px 12px;border-radius:12px;}
+.platform-name{font-size:15px;}
+.platform-desc{font-size:12.5px;}
+.platform-btn{margin-top:12px;}
+.feedback-wrap,.support-wrap{margin-bottom:56px;padding-left:2px;padding-right:2px;}
+.channel-list{grid-template-columns:1fr;gap:8px;}
+.channel-cell{flex-direction:row;justify-content:space-between;align-items:center;padding:12px 14px;white-space:nowrap;border-radius:10px;background:#f7fafc;}
+body.dark-mode .channel-cell{background:#1b1b1b;}
+.ch-label{width:auto;text-align:left;font-size:12.5px;letter-spacing:0;}
+.ch-id{font-size:14px;letter-spacing:0;}
+.feedback-title{font-size:20px;}
+.feedback-desc{margin-bottom:16px;}
+.support-wrap{padding:22px 10px 14px;}
+.support-title{font-size:21px;}
+.support-plain{margin-top:18px;}
+.support-link{font-size:14px;}
+}
+@media (max-width:380px){
+nav a{font-size:12px;padding:5px 6px;}
+.custom-select{min-width:70px;}
+.select-box{padding:4px 7px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+<div id="toast-container"></div>
+
+<header>
+<nav>
+<a class="active" onclick="switchTab(event,'intro')" data-zh="介绍" data-en="Intro">介绍</a>
+<a onclick="switchTab(event,'download')" data-zh="下载" data-en="Download">下载</a>
+<a onclick="switchTab(event,'feedback')" data-zh="问题及反馈" data-en="Feedback">问题及反馈</a>
+<a onclick="switchTab(event,'support')" data-zh="支持我们" data-en="Support Us">支持我们</a>
+<div class="nav-controls">
+
+<div class="custom-select">
+<div class="select-box" id="themeBox" onclick="toggleDropdown(event,'themeDropdown')">
+<span id="themeLabel">跟随系统</span>
+<span class="arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+</div>
+<div class="select-dropdown" id="themeDropdown">
+<div class="select-item active" id="themeItemSystem" onclick="selectTheme('system')" data-zh="跟随系统" data-en="Follow system">跟随系统</div>
+<div class="select-item" id="themeItemLight" onclick="selectTheme('light')" data-zh="白天" data-en="Light">白天</div>
+<div class="select-item" id="themeItemDark" onclick="selectTheme('dark')" data-zh="黑夜" data-en="Dark">黑夜</div>
+</div>
+</div>
+
+<div class="custom-select">
+<div class="select-box" id="langBox" onclick="toggleDropdown(event,'langDropdown')">
+<span id="langLabel">简体中文</span>
+<span class="arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+</div>
+<div class="select-dropdown" id="langDropdown">
+<div class="select-item active" id="langItemZh" onclick="selectLang('zh')">简体中文</div>
+<div class="select-item" id="langItemEn" onclick="selectLang('en')">English</div>
+</div>
+</div>
+
+</div>
+</nav>
+</header>
+
+
+
+
+<main>
+<div id="intro" class="tab-content active">
+<div class="intro-container">
+<img src="icon.png" alt="XYCL启动器 图标" class="intro-icon">
+<div class="intro-text">
+<h1 id="mainTitle" data-zh="XYCL启动器" data-en="XYCL Launcher">XYCL启动器</h1>
+<p data-zh="XYCL启动器是一款 Minecraft Java 版多端启动器，支持多人联机、下载世界以及模组等功能。" data-en="XYCL Launcher is a multi-platform launcher for Minecraft Java Edition, featuring multiplayer, world downloads, mods and more.">XYCL启动器是一款 Minecraft Java 版多端启动器，支持多人联机、下载世界以及模组等功能。</p>
+<p data-zh="我们不会向启动器内投放广告等内容。希望它能对你提供一些帮助，非常感谢您的使用！" data-en="We will never put ads or similar content inside the launcher. We hope it helps you — thank you for using it!">我们不会向启动器内投放广告等内容。希望它能对你提供一些帮助，非常感谢您的使用！</p>
+</div>
+</div>
+</div>
+
+<div id="download" class="tab-content">
+<div class="download-page">
+<div class="download-title" data-zh="下载 XYCL 启动器" data-en="Download XYCL Launcher">下载 XYCL 启动器</div>
+<div class="download-subtitle" data-zh="选择你的设备平台" data-en="Choose your platform">选择你的设备平台</div>
+<div class="platform-grid">
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#3ddc84"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.46 11.46 0 0 0-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+</div>
+<div class="platform-name">Android</div>
+<div class="platform-desc" data-zh="适用于安卓手机与平板" data-en="For Android phones and tablets">适用于安卓手机与平板</div>
+<button class="platform-btn available" onclick="openDownload('android')" data-zh="立即下载" data-en="Download">立即下载</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#555"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+</div>
+<div class="platform-name">iOS</div>
+<div class="platform-desc" data-zh="适用于 iPhone 与 iPad" data-en="For iPhone and iPad">适用于 iPhone 与 iPad</div>
+<button class="platform-btn developing" onclick="openDownload('ios')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#00a4ef"><path d="M3 5.5L10.5 4.35V11.4H3V5.5zM11.6 4.18L21 2.85V11.4H11.6V4.18zM3 12.6H10.5V19.65L3 18.5V12.6zM11.6 12.6H21V21.15L11.6 19.82V12.6z"/></svg>
+</div>
+<div class="platform-name">Windows</div>
+<div class="platform-desc" data-zh="适用于 Windows 电脑" data-en="For Windows PC">适用于 Windows 电脑</div>
+<button class="platform-btn developing" onclick="openDownload('windows')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#333"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+</div>
+<div class="platform-name">macOS</div>
+<div class="platform-desc" data-zh="适用于苹果电脑" data-en="For Apple Mac">适用于苹果电脑</div>
+<button class="platform-btn developing" onclick="openDownload('macos')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+<div class="platform-card">
+<div class="platform-icon">
+<svg viewBox="0 0 24 24" fill="#f7a800"><path d="M12 2C9.5 2 8 4 8 6c0 2.5 1.5 4 4 4s4-1.5 4-4c0-2-1.5-4-4-4zM5 22c1-3 3-5 7-5s6 2 7 5H5z"/></svg>
+</div>
+<div class="platform-name">Linux</div>
+<div class="platform-desc" data-zh="适用于 Linux 系统" data-en="For Linux systems">适用于 Linux 系统</div>
+<button class="platform-btn developing" onclick="openDownload('linux')" data-zh="研发中" data-en="Coming Soon">研发中</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<div id="feedback" class="tab-content">
+<div class="feedback-wrap">
+<div class="feedback-title" data-zh="问题及反馈" data-en="Feedback">问题及反馈</div>
+<div class="feedback-desc" data-zh="您可向以下渠道反馈问题" data-en="You can report issues through the channels below">您可向以下渠道反馈问题</div>
+<div class="channel-list">
+
+<div class="channel-cell" onclick="copyId('50495141841')" title="抖音号 50495141841">
+<span class="ch-label" data-zh="抖音号：" data-en="Douyin:">抖音号：</span>
+<span class="ch-id">50495141841</span>
+</div>
+
+<div class="channel-cell" onclick="copyId('5613255499')" title="快手号 5613255499">
+<span class="ch-label" data-zh="快手号：" data-en="Kuaishou:">快手号：</span>
+<span class="ch-id">5613255499</span>
+</div>
+
+<div class="channel-cell" onclick="copyId('18138514940')" title="小红书号 18138514940">
+<span class="ch-label" data-zh="小红书号：" data-en="Xiaohongshu:">小红书号：</span>
+<span class="ch-id">18138514940</span>
+</div>
+
+<div class="channel-cell" onclick="copyId('3706956671879550')" title="B站号 3706956671879550">
+<span class="ch-label" data-zh="B站号：" data-en="Bilibili:">B站号：</span>
+<span class="ch-id">3706956671879550</span>
+</div>
+
+</div>
+<div class="feedback-tip" data-zh="反馈时请说明手机型号、安卓版本，以及遇到的问题（有截图或日志更好）。" data-en="Please include your phone model, Android version and what happened (screenshots or logs help a lot).">反馈时请说明手机型号、安卓版本，以及遇到的问题（有截图或日志更好）。</div>
+</div>
+</div>
+
+<div id="support" class="tab-content">
+<div class="support-wrap">
+<div class="support-title" data-zh="XYCL启动器" data-en="XYCL Launcher">XYCL启动器</div>
+<div class="support-plain" data-zh="XYCL启动器完全免费，没有任何广告和付费功能。如果它帮到了你，欢迎前往爱发电支持作者。" data-en="XYCL Launcher is completely free with no ads or paid features. If it helps you, you can support the author on Afdian.">XYCL启动器完全免费，没有任何广告和付费功能。如果它帮到了你，欢迎前往爱发电支持作者。</div>
+<div class="support-link" onclick="openAfdian()" data-zh="前往爱发电" data-en="Open Afdian">前往爱发电</div>
+<div class="support-foot" data-zh="感谢每一位使用 XYCL启动器的玩家" data-en="Thanks to every player using XYCL Launcher">感谢每一位使用 XYCL启动器的玩家</div>
+</div>
+</div>
+</main>
+
+<div class="modal-mask" id="dlModal" onclick="maskClose(event,'dlModal')">
+<div class="modal-box">
+<button class="modal-x" onclick="closeModal('dlModal')" aria-label="close">&times;</button>
+<div class="modal-title" data-zh="下载 XYCL 启动器" data-en="Download XYCL Launcher">下载 XYCL 启动器</div>
+<div class="modal-sub" data-zh="请选择要下载的版本" data-en="Choose a version to download">请选择要下载的版本</div>
+<div class="custom-select modal-select">
+<div class="select-box" id="verBox" onclick="toggleDropdown(event,'verDropdown')">
+<span id="verLabel">v2.0.0（最新）</span>
+<span class="arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+</div>
+<div class="select-dropdown" id="verDropdown">
+<div class="select-item active" data-ver="v2.0.0" onclick="selectVersion('v2.0.0')" data-zh="v2.0.0（最新）" data-en="v2.0.0 (latest)">v2.0.0（最新）</div>
+<div class="select-item" data-ver="v1.14.0" onclick="selectVersion('v1.14.0')" data-zh="v1.14.0（旧版）" data-en="v1.14.0 (older)">v1.14.0（旧版）</div>
+</div>
+</div>
+<div class="modal-foot">
+<button class="btn-primary" onclick="confirmDownload()" data-zh="确定" data-en="OK">确定</button>
+</div>
+</div>
+</div>
+
+<div class="modal-mask" id="supportGate" onclick="maskClose(event,'supportGate')">
+<div class="modal-box gate">
+<button class="modal-x" onclick="closeModal('supportGate')" aria-label="close">&times;</button>
+<div class="modal-title" data-zh="支持 XYCL启动器" data-en="Support XYCL Launcher">支持 XYCL启动器</div>
+<div class="gate-warn" data-zh="未满 18 岁的用户请确保已获得家长或监护人同意后再付款。" data-en="If you are under 18, make sure a parent or guardian agrees before paying.">未满 18 岁的用户请确保已获得家长或监护人同意后再付款。</div>
+<div class="gate-terms">
+<div class="sg-row" data-zh="1. XYCL启动器完全免费，没有任何广告，也没有任何付费功能。" data-en="1. XYCL Launcher is completely free, with no ads and no paid features.">1. XYCL启动器完全免费，没有任何广告，也没有任何付费功能。</div>
+<div class="sg-row" data-zh="2. 所有功能对所有玩家开放，捐赠不会解锁任何额外功能或特权。" data-en="2. Every feature is open to every player; donating unlocks nothing extra.">2. 所有功能对所有玩家开放，捐赠不会解锁任何额外功能或特权。</div>
+<div class="sg-row" data-zh="3. 未满 18 周岁请务必先征得家长或监护人同意，并使用其许可的支付方式。" data-en="3. Under 18? Get a parent or guardian to agree first, and use their approved payment method.">3. 未满 18 周岁请务必先征得家长或监护人同意，并使用其许可的支付方式。</div>
+<div class="sg-row" data-zh="4. 赞助款用于服务器、带宽与开发维护成本，一经支付即视为同意本条款。" data-en="4. Donations pay for servers, bandwidth and maintenance; paying means you accept these terms.">4. 赞助款用于服务器、带宽与开发维护成本，一经支付即视为同意本条款。</div>
+<div class="sg-row" data-zh="5. 我们不保存任何支付信息，支付过程由爱发电平台完成。" data-en="5. We never store payment details; payment is handled by Afdian.">5. 我们不保存任何支付信息，支付过程由爱发电平台完成。</div>
+<div class="sg-row" data-zh="6. 若发生误付或对条款有疑问，可通过爱发电留言联系，我们会协助处理。" data-en="6. For a mistaken payment or any question, leave a message on Afdian and we will help.">6. 若发生误付或对条款有疑问，可通过爱发电留言联系，我们会协助处理。</div>
+</div>
+<div class="gate-foot">
+<button class="btn-ghost" onclick="closeModal('supportGate')" data-zh="取消" data-en="Cancel">取消</button>
+<button class="btn-confirm" onclick="confirmSupportGate()" data-zh="确定" data-en="OK">确定</button>
+</div>
+</div>
+</div>
+
+<div class="modal-mask" id="warnModal" onclick="maskClose(event,'warnModal')">
+<div class="modal-box center">
+<button class="modal-x" onclick="closeModal('warnModal')" aria-label="close">&times;</button>
+<div class="warn-icon">!</div>
+<div class="modal-title" id="warnTitle">iOS 版本研发中</div>
+<div class="modal-sub" id="warnText">该平台版本正在研发中，敬请期待。</div>
+<div class="modal-foot">
+<button class="btn-primary" onclick="closeModal('warnModal')" data-zh="确定" data-en="OK">确定</button>
+</div>
+</div>
+</div>
+
+<script>
+let currentLang = 'zh';
+let themeMode = 'system';
+let selectedVersion = 'v2.0.0';
+
+const GH_PROXY = 'https://gh-proxy.com/';
+const GH_REPO  = 'LTXxiaoyu/xiaoyu.github.io';
+const VERSIONS = {
+    'v2.0.0':  { tag: 'v2.0.0',  asset: 'XYLauncher.apk', name: { zh: 'v2.0.0（最新）', en: 'v2.0.0 (latest)' } },
+    'v1.14.0': { tag: 'V1.14.0', asset: 'XYCL.apk',       name: { zh: 'v1.14.0（旧版）', en: 'v1.14.0 (older)' } }
+};
+const AFDIAN_URL = 'https://afdian.com/a/xylauncher';
+
+const I18N = {
+    zh: {
+        copying: '已复制：', downloaded: '开始下载 ', warnTitle: '版本研发中',
+        warnText: ' 版本正在研发中，敬请期待。', copyFail: '复制失败，请手动记下号码'
+    },
+    en: {
+        copying: 'Copied: ', downloaded: 'Downloading ', warnTitle: 'Coming soon',
+        warnText: ' version is under development. Stay tuned.', copyFail: 'Copy failed, please note it down manually'
+    }
+};
+function T(key) { return I18N[currentLang][key]; }
+
+const soundCache = {};
+function preloadSounds() {
+    ['click.mp4', 'error.mp4'].forEach(function(name) {
+        const a = new Audio();
+        a.src = name;
+        a.preload = 'auto';
+        a.volume = 0.7;
+        try { a.load(); } catch(e) {}
+        soundCache[name] = a;
+    });
+}
+preloadSounds();
+
+function switchTab(event, tabId) {
+    document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    const target = document.getElementById(tabId);
+    if (!target) return;
+    target.classList.add('active');
+    if (tabId === 'download') {
+        target.querySelectorAll('.download-title,.download-subtitle,.platform-card').forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = '';
+        });
+    }
+    if (tabId === 'support') maybeShowSupportGate();
+}
+
+function toggleDropdown(event, id) {
+    event.stopPropagation();
+    const dd = document.getElementById(id);
+    const isOpen = dd.classList.contains('open');
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+    if (!isOpen) {
+        dd.classList.add('open');
+        dd.previousElementSibling.classList.add('open');
+    }
+}
+
+document.addEventListener('click', function() {
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+});
+
+/* ---------------- 主题：跟随系统 / 白天 / 黑夜 ---------------- */
+function systemPrefersDark() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+}
+
+function applyTheme() {
+    const dark = themeMode === 'dark' || (themeMode === 'system' && systemPrefersDark());
+    document.body.classList.toggle('dark-mode', dark);
+    const label = { system: { zh: '跟随系统', en: 'Follow system' }, light: { zh: '白天', en: 'Light' }, dark: { zh: '黑夜', en: 'Dark' } }[themeMode];
+    document.getElementById('themeLabel').textContent = label[currentLang];
+    document.getElementById('themeItemSystem').classList.toggle('active', themeMode === 'system');
+    document.getElementById('themeItemLight').classList.toggle('active', themeMode === 'light');
+    document.getElementById('themeItemDark').classList.toggle('active', themeMode === 'dark');
+}
+
+function selectTheme(mode) {
+    themeMode = mode;
+    try { localStorage.setItem('xyTheme', mode); } catch(e) {}
+    applyTheme();
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+}
+
+if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = function() { if (themeMode === 'system') applyTheme(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+}
+
+/* ---------------- 语言 ---------------- */
+function selectLang(lang) {
+    currentLang = lang;
+    document.getElementById('langLabel').textContent = lang === 'zh' ? '简体中文' : 'English';
+    document.getElementById('langItemZh').classList.toggle('active', lang === 'zh');
+    document.getElementById('langItemEn').classList.toggle('active', lang === 'en');
+    try { localStorage.setItem('xyLang', lang); } catch(e) {}
+    changeLanguage(lang);
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+}
+
+function changeLanguage(lang) {
+    document.querySelectorAll('[data-zh]').forEach(el => {
+        el.textContent = (lang === 'zh') ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+    });
+    applyTheme();
+    refreshVersionLabel();
+}
+
+function refreshVersionLabel() {
+    const v = VERSIONS[selectedVersion];
+    document.getElementById('verLabel').textContent = v.name[currentLang];
+    document.querySelectorAll('#verDropdown .select-item').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-ver') === selectedVersion);
+    });
+}
+
+/* ---------------- 弹框 ---------------- */
+function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.classList.add('modal-open');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    if (!document.querySelector('.modal-mask.open')) document.body.classList.remove('modal-open');
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+}
+
+function maskClose(event, id) {
+    if (event.target === event.currentTarget) closeModal(id);
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-mask.open').forEach(el => closeModal(el.id));
+    }
+});
+
+/* ---------------- 下载 ---------------- */
+const PLATFORM_NAME = { ios: 'iOS', windows: 'Windows', macos: 'macOS', linux: 'Linux' };
+
+function openDownload(platform) {
+    if (platform === 'android') {
+        playSound('click.mp4');
+        refreshVersionLabel();
+        openModal('dlModal');
+        return;
+    }
+    playSound('error.mp4');
+    const name = PLATFORM_NAME[platform] || platform;
+    document.getElementById('warnTitle').textContent = name + ' · ' + T('warnTitle');
+    document.getElementById('warnText').textContent = (currentLang === 'zh')
+        ? name + ' 版本正在研发中，敬请期待。'
+        : name + ' version is under development. Stay tuned.';
+    openModal('warnModal');
+}
+
+function selectVersion(ver) {
+    selectedVersion = ver;
+    refreshVersionLabel();
+    document.querySelectorAll('.select-dropdown').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.select-box').forEach(el => el.classList.remove('open'));
+}
+
+function downloadUrl(ver) {
+    const v = VERSIONS[ver];
+    return GH_PROXY + 'https://github.com/' + GH_REPO + '/releases/download/' + v.tag + '/' + v.asset;
+}
+
+function confirmDownload() {
+    const v = VERSIONS[selectedVersion];
+    closeModal('dlModal');
+    playSound('click.mp4');
+    showToast(T('downloaded') + v.name[currentLang] + ' ...', 'complete');
+    const a = document.createElement('a');
+    a.href = downloadUrl(selectedVersion);
+    a.download = v.asset;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+/* ---------------- 反馈：复制账号 ---------------- */
+function copyId(id) {
+    const done = function() {
+        playSound('click.mp4');
+        showToast(T('copying') + id, 'complete');
+    };
+    const fail = function() {
+        playSound('error.mp4');
+        showToast(T('copyFail'), 'warning');
+    };
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(id).then(done).catch(function() { legacyCopy(id, done, fail); });
+        } else {
+            legacyCopy(id, done, fail);
+        }
+    } catch(e) {
+        legacyCopy(id, done, fail);
+    }
+}
+
+function legacyCopy(text, done, fail) {
+    try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        ok ? done() : fail();
+    } catch(e) {
+        fail();
+    }
+}
+
+/* ---------------- 支持我们：18 岁确认 ---------------- */
+const SUPPORT_AGREED_KEY = 'xy_support_agreed';
+
+function supportAgreed() {
+    try { return localStorage.getItem(SUPPORT_AGREED_KEY) === '1'; } catch (e) { return false; }
+}
+
+function maybeShowSupportGate() {
+    if (supportAgreed()) return;
+    openModal('supportGate');
+}
+
+function confirmSupportGate() {
+    try { localStorage.setItem(SUPPORT_AGREED_KEY, '1'); } catch (e) {}
+    closeModal('supportGate');
+    playSound('click.mp4');
+}
+
+function openAfdian() {
+    playSound('click.mp4');
+    try { window.open(AFDIAN_URL, '_blank'); } catch (e) {}
+}
+
+function playSound(fileName) {
+    const audio = soundCache[fileName];
+    if (audio) {
+        try {
+            audio.currentTime = 0;
+            const p = audio.play();
+            if (p && p.catch) p.catch(function(){});
+        } catch(e) {}
+    }
+}
+
+function showToast(message, type) {
+    const container = document.getElementById('toast-container');
+    if (container.children.length >= 3) {
+        const oldest = container.firstElementChild;
+        if (oldest) oldest.remove();
+    }
+    const toast = document.createElement('div');
+    toast.className = 'site-toast ' + (type || 'warning');
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+
+
+/* ---------------- 初始化 ---------------- */
+(function init() {
+    try {
+        const savedTheme = localStorage.getItem('xyTheme');
+        if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'system') themeMode = savedTheme;
+        const savedLang = localStorage.getItem('xyLang');
+        if (savedLang === 'zh' || savedLang === 'en') {
+            currentLang = savedLang;
+            document.getElementById('langLabel').textContent = savedLang === 'zh' ? '简体中文' : 'English';
+            document.getElementById('langItemZh').classList.toggle('active', savedLang === 'zh');
+            document.getElementById('langItemEn').classList.toggle('active', savedLang === 'en');
+        }
+    } catch(e) {}
+    applyTheme();
+    if (currentLang !== 'zh') changeLanguage(currentLang);
+    refreshVersionLabel();
+
+})();
+</script>
+</body>
+</html>
